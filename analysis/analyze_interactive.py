@@ -512,8 +512,9 @@ main();
 
 def main() -> dict:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--input-dir", type=str, default="raw", help="Directory containing your private CSV/TXT files")
-    ap.add_argument("--output-dir", type=str, default="docs", help="Directory where public dashboard files are written")
+    repo_root = Path(__file__).resolve().parents[1]
+    ap.add_argument("--input-dir", type=str, default=str(repo_root /"analysis"/ "raw"))
+    ap.add_argument("--output-dir", type=str, default=str(repo_root / "docs"))
     ap.add_argument("--fee-rate", type=float, default=FEE_RATE_NOTIONAL, help="Fee rate (decimal, e.g. 0.00043 for 0.043%)")
     args = ap.parse_args()
 
