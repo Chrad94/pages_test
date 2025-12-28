@@ -254,14 +254,16 @@ def build_dashboard(input_dir: Path, output_dir: Path, fee_rate: float = FEE_RAT
             # Turnover time-series
             turn_df = ts[["timestamp", "turnover[%]"]].dropna()
             if len(turn_df) > 0:
-                fig = px.bar(turn_df, x="timestamp", y="turnover[%]")
+                fig = px.line(turn_df, x="timestamp", y="turnover[%]")
                 fig.update_yaxes(title_text="Turnover (%)")
+                fig.update_traces(mode="lines+markers", name="Turnover")
                 _write_plotly_html(
                     fig,
                     output_dir / "turnover.html",
                     "Turnover per Session (%)",
                     x_range=x_range_7d_ts,
                 )
+
                 turnover_written = True
 
             # Fee estimates
@@ -278,14 +280,16 @@ def build_dashboard(input_dir: Path, output_dir: Path, fee_rate: float = FEE_RAT
 
             fee_df = ts[["timestamp", "fee_est_pct_capital"]].dropna()
             if len(fee_df) > 1:
-                fig = px.bar(fee_df, x="timestamp", y="fee_est_pct_capital")
+                fig = px.line(fee_df, x="timestamp", y="fee_est_pct_capital")
                 fig.update_yaxes(title_text="Estimated fees (% of capital)")
+                fig.update_traces(mode="lines+markers", name="Fees")
                 _write_plotly_html(
                     fig,
                     output_dir / "fees.html",
                     "Estimated Fees per Session (% of capital)",
                     x_range=x_range_7d_ts,
                 )
+
                 fees_written = True
 
         if "trade_sess_capital_change[%]" in ts.columns:
