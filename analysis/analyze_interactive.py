@@ -355,8 +355,9 @@ def build_dashboard(input_dir: Path, output_dir: Path, fee_rate: float = FEE_RAT
         "equity_last_usd": last_equity,
         "return_total_pct": float((last_equity / first_equity - 1.0) * 100.0),
         "return_7d_pct": None if window_return(7) is None else float(window_return(7) * 100.0),
+        "return_14d_pct": None if window_return(14) is None else float(window_return(14) * 100.0),
         "return_30d_pct": None if window_return(30) is None else float(window_return(30) * 100.0),
-        "max_drawdown_pct": float(dd_full.min() * 100.0),
+        "max_drawdown_pct": float(_compute_drawdown(equity).min() * 100.0),
         "max_drawdown_7d_pct": max_dd_7d_pct,
         "avg_leverage_x": avg_leverage,
         "avg_gross_exposure_x": gross_exposure_x,
@@ -368,6 +369,7 @@ def build_dashboard(input_dir: Path, output_dir: Path, fee_rate: float = FEE_RAT
         "fee_and_session_stats": fee_est,
         "macro_snapshot": macro_summary,
     }
+
 
     with open(output_dir / "metrics.json", "w", encoding="utf-8") as f:
         json.dump(metrics, f, indent=2)
@@ -477,15 +479,17 @@ async function main() {{
 
     const fmt = (x, suf='') => (x === null || x === undefined || Number.isNaN(x)) ? '—' : (typeof x === 'number' ? x.toFixed(2) : x) + suf;
 
-    const kpis = [
-      ['Equity (last)', fmt(m.equity_last_usd, ' USD')],
-      ['7D return', fmt(m.return_7d_pct, ' %')],
-      ['7D max drawdown', fmt(m.max_drawdown_7d_pct, ' %')],
-      ['Last market exposure', fmt(m.last_market_exposure, '')],
-      ['Max drawdown (all)', fmt(m.max_drawdown_pct, ' %')],
-      ['Avg leverage', fmt(m.avg_leverage_x, 'x')],
-      ['Avg gross exposure', fmt(m.avg_gross_exposure_x, 'x')],
-    ];
+const kpis = [
+  ['Equity (last)', fmt(m.equity_last_usd, ' USD')],
+  ['7D return', fmt(m.return_7d_pct, ' %')],
+  ['14D return', fmt(m.return_14d_pct, ' %')],
+  ['30D return', fmt(m.return_30d_pct, ' %')],
+  ['7D max drawdown', fmt(m.max_drawdown_7d_pct, ' %')],
+  ['Last market exposure', fmt(m.last_market_exposure, '')],
+  ['Max drawdown (all)', fmt(m.max_drawdown_pct, ' %')],
+  ['Avg leverage', fmt(m.avg_leverage_x, 'x')],
+  ['Avg gross exposure', fmt(m.avg_gross_exposure_x, 'x')],
+];
 
     const kpiEl = document.getElementById('kpi');
     kpiEl.innerHTML = '';

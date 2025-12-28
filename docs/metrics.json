@@ -1,11 +1,12 @@
 {
-  "last_updated_utc": "2025-12-28T20:12:51+00:00",
+  "last_updated_utc": "2025-12-28T20:24:50+00:00",
   "data_time_start": "2025-11-06T15:29:24.223878",
   "data_time_end": "2025-12-28T21:06:51.014934",
   "equity_start_usd": 226.606537,
   "equity_last_usd": 580.489937,
   "return_total_pct": 156.16645692793938,
   "return_7d_pct": -8.388230303614929,
+  "return_14d_pct": 29.632646578135358,
   "return_30d_pct": 1.584301582528691,
   "max_drawdown_pct": -45.33268564021758,
   "max_drawdown_7d_pct": -16.790654733106948,
