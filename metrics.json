@@ -1,0 +1,42 @@
+{
+  "last_updated_utc": "2025-12-28T15:35:28+00:00",
+  "data_time_start": "2025-11-06T15:29:24.223878",
+  "data_time_end": "2025-12-28T09:06:40.163729",
+  "equity_start_usd": 226.606537,
+  "equity_last_usd": 548.56231,
+  "return_total_pct": 142.07700151209673,
+  "return_7d_pct": -11.439623084774276,
+  "return_30d_pct": -4.0029540842004385,
+  "max_drawdown_pct": -45.33268564021758,
+  "max_drawdown_7d_pct": -16.790654733106948,
+  "avg_leverage_x": 5.119713191455481,
+  "avg_gross_exposure_x": 5.119713191455481,
+  "avg_abs_market_exposure": 0.2036837428729862,
+  "last_market_exposure": -1.0174182564602368,
+  "last_nr_longs": 3,
+  "last_nr_shorts": 9,
+  "detected_step_jumps_count": 1,
+  "fee_and_session_stats": {
+    "fee_rate_notional": 0.00043,
+    "avg_turnover_pct": 0.3699797840048412,
+    "median_turnover_pct": 0.24917875307744408,
+    "avg_fee_est_pct_capital": 0.0001590913071220818,
+    "median_fee_est_pct_capital": 0.00010714686382330094,
+    "avg_session_return_pct": -0.005499370960964826,
+    "median_session_return_pct": -0.0012203551002651501,
+    "worst_session_return_pct": -4.303744999999992,
+    "best_session_return_pct": 3.8476510000000417
+  },
+  "macro_snapshot": {
+    "ROC4h": 0.0039560526904169,
+    "ROC24h": 0.0292039699294254,
+    "ROC7": 0.0310705192501113,
+    "ROC14": 0.0018145271893167,
+    "ROC30": -0.1277218139831653,
+    "Stoch4h": 0.6646653588360011,
+    "Stoch24h": 0.7545230795919643,
+    "Stoch20": 0.3617516194347678,
+    "Price": 1481.3701198095237,
+    "Volume": 47554.54224301587
+  }
+}
