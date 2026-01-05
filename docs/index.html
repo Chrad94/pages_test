@@ -5,130 +5,579 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Trading Dashboard</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
-    h1 { margin-bottom: 0; }
-    .sub { color: #555; margin-top: 6px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 18px; margin-top: 18px; }
-    .card { border: 1px solid #ddd; border-radius: 10px; padding: 12px 14px; }
-    iframe { width: 100%; height: 440px; border: 1px solid #eee; border-radius: 8px; }
-    pre { white-space: pre-wrap; word-break: break-word; }
-    .kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
-    .kpi div { padding: 10px; border: 1px solid #eee; border-radius: 8px; }
-    .small { font-size: 12px; color: #666; }
-    @media (max-width: 600px) {
-      iframe { height: 360px; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+      background: linear-gradient(135deg, #0f1419 0%, #1a1d29 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 24px;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 32px;
+      border-bottom: 2px solid #2d3142;
+      padding-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .header-left {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .status-lamp-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      background: #1e2330;
+      border: 1px solid #2d3142;
+      border-radius: 12px;
+      min-width: 250px;
+    }
+
+    .status-lamp {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .status-lamp.green {
+      background: radial-gradient(circle, #51cf66, #37b24d);
+      box-shadow: 0 0 30px rgba(81, 207, 102, 0.6), 0 0 60px rgba(81, 207, 102, 0.3);
+    }
+
+    .status-lamp.yellow {
+      background: radial-gradient(circle, #ffd43b, #fab005);
+      box-shadow: 0 0 30px rgba(255, 212, 59, 0.6), 0 0 60px rgba(255, 212, 59, 0.3);
+    }
+
+    .status-lamp.red {
+      background: radial-gradient(circle, #ff6b6b, #fa5252);
+      box-shadow: 0 0 30px rgba(255, 107, 107, 0.6), 0 0 60px rgba(255, 107, 107, 0.3);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .status-lamp::after {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 20%;
+      width: 40%;
+      height: 40%;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      filter: blur(4px);
+    }
+
+    .status-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .status-label {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .status-message {
+      font-size: 14px;
+      color: #e0e0e0;
+      font-weight: 500;
+    }
+
+    .status-criteria {
+      font-size: 10px;
+      color: #666;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .criteria-card {
+      background: #1e2330;
+      border: 1px solid #2d3142;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .criteria-card strong {
+      color: #e0e0e0;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #00d4ff 0%, #be4bdb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      color: #888;
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 800px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .kpi-card {
+      background: linear-gradient(135deg, #1e2330 0%, #252935 100%);
+      border: 1px solid #2d3142;
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      border-color: #00d4ff;
+      box-shadow: 0 8px 24px rgba(0, 212, 255, 0.15);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00d4ff, #be4bdb);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .kpi-card:hover::before {
+      opacity: 1;
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #e0e0e0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi-value.positive {
+      color: #51cf66;
+    }
+
+    .kpi-value.negative {
+      color: #ff6b6b;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: #1a1d29;
+      border: 1px solid #2d3142;
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: #3d4052;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      color: #e0e0e0;
+      margin-bottom: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 440px;
+      border: none;
+      border-radius: 12px;
+      background: #1a1d29;
+    }
+
+    .metrics-card {
+      background: #1a1d29;
+      border: 1px solid #2d3142;
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 32px;
+    }
+
+    .metrics-card h3 {
+      font-size: 18px;
+      color: #e0e0e0;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    pre {
+      background: #0f1419;
+      border: 1px solid #2d3142;
+      border-radius: 12px;
+      padding: 20px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #b0b0b0;
+      font-family: 'Courier New', monospace;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 24px;
+      color: #666;
+      font-size: 13px;
+      border-top: 1px solid #2d3142;
+      margin-top: 48px;
+    }
+
+    .update-time {
+      background: #1e2330;
+      border: 1px solid #2d3142;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: #888;
+      margin-top: 16px;
+      display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .status-lamp-container {
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kpi-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+      }
+
+      iframe {
+        height: 360px;
+      }
+    }
+
+    .loading {
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in forwards;
     }
   </style>
 </head>
 <body>
-  <h1>Trading Dashboard</h1>
-  <div class="sub">Interactive charts (hover/zoom/pan). Default view: last 7 days. Only aggregates are published—no raw trades/positions.</div>
+  <div class="container">
+    <header>
+      <div class="header-left">
+        <h1>Trading Dashboard</h1>
+        <div class="subtitle">
+          Interactive performance analytics • Hover to explore • Scroll to zoom • Default view: Last 7 days
+        </div>
+      </div>
+      <div class="status-lamp-container">
+        <div class="status-lamp" id="status-lamp"></div>
+        <div class="status-info">
+          <div class="status-label">System Status</div>
+          <div class="status-message" id="status-message">Loading...</div>
+          <div class="status-criteria">🟢 All OK | 🟡 Drawdown only | 🔴 Critical issues</div>
+        </div>
+      </div>
+    </header>
 
-  <div class="card" style="margin-top:16px;">
-    <div class="kpi" id="kpi"></div>
-    <div class="small" id="updated"></div>
-  </div>
+    <div class="criteria-card">
+      <strong>Status Lamp Criteria:</strong> 
+      🟢 Green = Longs ≥5, Shorts ≥10, Drawdown >-30%, Exposure ∈[-1.2, 1.2] | 
+      🟡 Yellow = Only drawdown fails | 
+      🔴 Red = Other criteria fail
+    </div>
 
-  <div class="grid">
+    <div class="kpi-grid loading" id="kpi-grid"></div>
+
+    <div class="charts-grid loading">
+      <div class="card">
+        <h3>📈 Equity Curve</h3>
+        <iframe src="equity.html"></iframe>
+      </div>
+      <div class="card">
+        <h3>📉 Drawdown</h3>
+        <iframe src="drawdown.html"></iframe>
+      </div>
+      <div class="card">
+        <h3>🎯 Net Market Exposure</h3>
+        <iframe src="exposure.html"></iframe>
+      </div>
+      <div class="card">
+        <h3>⚖️ Leverage</h3>
+        <iframe src="leverage.html"></iframe>
+      </div>
+      
     <div class="card">
-      <h3>Equity</h3>
-      <iframe src="equity.html"></iframe>
-    </div>
-    <div class="card">
-      <h3>Drawdown</h3>
-      <iframe src="drawdown.html"></iframe>
-    </div>
-    <div class="card">
-      <h3>Net Market Exposure</h3>
-      <iframe src="exposure.html"></iframe>
-    </div>
-    <div class="card">
-      <h3>Leverage</h3>
-      <iframe src="leverage.html"></iframe>
-    </div>
-    
-    <div class="card">
-      <h3>Number of Longs & Shorts</h3>
+      <h3>📊 Number of Longs & Shorts</h3>
       <iframe src="positions.html"></iframe>
     </div>
 
-    
+      
     <div class="card">
-      <h3>Current Holdings (USD)</h3>
+      <h3>💼 Current Holdings (USD)</h3>
       <iframe src="holdings.html"></iframe>
     </div>
 
-    
+      
     <div class="card">
-      <h3>Session Return by Strategy</h3>
+      <h3>🎯 Session Return by Strategy</h3>
       <iframe src="strategy.html"></iframe>
     </div>
 
-    
+      
     <div class="card">
-      <h3>Delta ROC (7 & 14)</h3>
+      <h3>📈 Delta ROC (7 & 14)</h3>
       <iframe src="macro_deltaROC.html"></iframe>
     </div>
 
-    
+      
     <div class="card">
-      <h3>Stoch Delta ROC (7 & 14)</h3>
+      <h3>📉 Stoch Delta ROC (7 & 14)</h3>
       <iframe src="macro_stoch_deltaROC.html"></iframe>
     </div>
 
-    
+      
     <div class="card">
-      <h3>Turnover per Session</h3>
+      <h3>🔄 Turnover per Session</h3>
       <iframe src="turnover.html"></iframe>
     </div>
 
-    
+      
     <div class="card">
-      <h3>Estimated Fees per Session</h3>
+      <h3>💸 Estimated Fees per Session</h3>
       <iframe src="fees.html"></iframe>
     </div>
 
-  </div>
+    </div>
 
-  <div class="card" style="margin-top:18px;">
-    <h3>metrics.json</h3>
-    <pre id="metrics"></pre>
+    <div class="metrics-card loading">
+      <h3>📊 Full Metrics (JSON)</h3>
+      <pre id="metrics"></pre>
+      <div class="update-time" id="update-time"></div>
+    </div>
+
+    <div class="footer">
+      <p>Only aggregated metrics published • No raw trades or positions exposed</p>
+    </div>
   </div>
 
 <script>
+// Embedded metrics data (no fetch needed - works with file:// protocol)
+const METRICS_DATA = {
+  "last_updated_utc": "2026-01-05T14:47:57+00:00",
+  "lamp_status": "green",
+  "lamp_message": "All systems operational",
+  "data_time_start": "2025-11-06T15:29:24.223878",
+  "data_time_end": "2026-01-05T09:06:48.829941",
+  "equity_start_usd": 226.606537,
+  "equity_last_usd": 641.984955,
+  "return_total_pct": 183.3038108693219,
+  "return_7d_pct": 9.82645636095314,
+  "return_14d_pct": 10.81327313067295,
+  "return_30d_pct": 6.2040654687838925,
+  "max_drawdown_pct": -45.33268564021758,
+  "max_drawdown_7d_pct": -20.493005132028685,
+  "avg_leverage_x": 5.162746101065278,
+  "avg_gross_exposure_x": 5.162746101065278,
+  "avg_abs_market_exposure": 0.23956810812312457,
+  "last_market_exposure": 0.9851896108686852,
+  "last_nr_longs": 5,
+  "last_nr_shorts": 10,
+  "detected_step_jumps_count": 1,
+  "fee_and_session_stats": {
+    "fee_rate_notional": 0.00043,
+    "avg_turnover_pct": 0.38599027869044517,
+    "median_turnover_pct": 0.2690080134426623,
+    "avg_fee_est_pct_capital": 0.00016597581983689142,
+    "median_fee_est_pct_capital": 0.00011567344578034478,
+    "avg_session_return_pct": -0.005358298079225897,
+    "median_session_return_pct": -0.00144189725311465,
+    "worst_session_return_pct": -4.303744999999992,
+    "best_session_return_pct": 3.8476510000000417
+  },
+  "macro_snapshot": {
+    "ROC4h": 0.0068851523727576,
+    "ROC24h": 0.0164129393140464,
+    "ROC7": 0.15747764739102,
+    "ROC14": 0.1746889387833333,
+    "ROC30": 0.0508135125388205,
+    "Stoch4h": 0.4623344350438638,
+    "Stoch24h": 0.4936599178393633,
+    "Stoch20": 0.8328718403723376,
+    "Price": 1562.9335536031742,
+    "Volume": 9152212.106454125
+  }
+};
+
 async function main() {
   try {
-    const r = await fetch('metrics.json', { cache: 'no-store' });
-    const m = await r.json();
+    const m = METRICS_DATA;
+
+    // Set status lamp
+    const lampEl = document.getElementById('status-lamp');
+    const messageEl = document.getElementById('status-message');
+    lampEl.className = 'status-lamp ' + m.lamp_status;
+    messageEl.textContent = m.lamp_message;
+
+    // Display full JSON
     document.getElementById('metrics').textContent = JSON.stringify(m, null, 2);
 
-    const fmt = (x, suf='') => (x === null || x === undefined || Number.isNaN(x)) ? '—' : (typeof x === 'number' ? x.toFixed(2) : x) + suf;
+    // Helper functions
+    const fmt = (x, suf='') => {
+      if (x === null || x === undefined || Number.isNaN(x)) return '—';
+      if (typeof x === 'number') {
+        return x.toFixed(2) + suf;
+      }
+      return x + suf;
+    };
 
+    const getColorClass = (val) => {
+      if (val === null || val === undefined || Number.isNaN(val)) return '';
+      return val >= 0 ? 'positive' : 'negative';
+    };
+
+    // KPI definitions
     const kpis = [
-      ['Equity (last)', fmt(m.equity_last_usd, ' USD')],
-      ['7D return', fmt(m.return_7d_pct, ' %')],
-      ['14D return', fmt(m.return_14d_pct, ' %')],
-      ['30D return', fmt(m.return_30d_pct, ' %')],
-      ['7D max drawdown', fmt(m.max_drawdown_7d_pct, ' %')],
-      ['Last market exposure', fmt(m.last_market_exposure, '')],
-      ['Max drawdown (all)', fmt(m.max_drawdown_pct, ' %')],
-      ['Avg leverage', fmt(m.avg_leverage_x, 'x')],
-      ['Avg gross exposure', fmt(m.avg_gross_exposure_x, 'x')],
+      { label: 'Portfolio Value', value: fmt(m.equity_last_usd, ' USD'), colorClass: '' },
+      { label: '7D Return', value: fmt(m.return_7d_pct, '%'), colorClass: getColorClass(m.return_7d_pct) },
+      { label: '14D Return', value: fmt(m.return_14d_pct, '%'), colorClass: getColorClass(m.return_14d_pct) },
+      { label: '30D Return', value: fmt(m.return_30d_pct, '%'), colorClass: getColorClass(m.return_30d_pct) },
+      { label: 'Total Return', value: fmt(m.return_total_pct, '%'), colorClass: getColorClass(m.return_total_pct) },
+      { label: '7D Max Drawdown', value: fmt(m.max_drawdown_7d_pct, '%'), colorClass: 'negative' },
+      { label: 'Max Drawdown', value: fmt(m.max_drawdown_pct, '%'), colorClass: 'negative' },
+      { label: 'Market Exposure', value: fmt(m.last_market_exposure, ''), colorClass: '' },
+      { label: 'Avg Leverage', value: fmt(m.avg_leverage_x, 'x'), colorClass: '' },
+      { label: 'Avg Gross Exposure', value: fmt(m.avg_gross_exposure_x, 'x'), colorClass: '' },
     ];
 
-    const kpiEl = document.getElementById('kpi');
-    kpiEl.innerHTML = '';
-    for (const [k,v] of kpis) {
-      const d = document.createElement('div');
-      d.innerHTML = `<div class="small">${k}</div><div style="font-size:18px; font-weight:600;">${v}</div>`;
-      kpiEl.appendChild(d);
+    // Render KPI cards
+    const kpiGrid = document.getElementById('kpi-grid');
+    kpiGrid.innerHTML = '';
+    for (const kpi of kpis) {
+      const card = document.createElement('div');
+      card.className = 'kpi-card';
+      card.innerHTML = `
+        <div class="kpi-label">${kpi.label}</div>
+        <div class="kpi-value ${kpi.colorClass}">${kpi.value}</div>
+      `;
+      kpiGrid.appendChild(card);
     }
-    document.getElementById('updated').textContent =
-      `Data range: ${m.data_time_start} → ${m.data_time_end} | Last generated: ${m.last_updated_utc}`;
+
+    // Update time
+    const startDate = new Date(m.data_time_start).toLocaleDateString();
+    const endDate = new Date(m.data_time_end).toLocaleDateString();
+    const updated = new Date(m.last_updated_utc).toLocaleString();
+    document.getElementById('update-time').innerHTML = `
+      <strong>Data Range:</strong> ${startDate} → ${endDate}<br>
+      <strong>Last Updated:</strong> ${updated}
+    `;
+
   } catch (e) {
     document.getElementById('metrics').textContent = 'Failed to load metrics.json: ' + e;
+    console.error('Error loading dashboard:', e);
   }
 }
+
 main();
 </script>
 </body>
