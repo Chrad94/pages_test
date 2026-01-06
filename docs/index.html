@@ -394,6 +394,14 @@
         <h3>📈 Equity Curve</h3>
         <iframe src="equity.html"></iframe>
       </div>
+
+      
+    <div class="card">
+      <h3>📊 Avg Return per Strategy (Equity-based, by session)</h3>
+      <iframe src="strategy_return_hist.html"></iframe>
+    </div>
+
+
       <div class="card">
         <h3>📉 Drawdown</h3>
         <iframe src="drawdown.html"></iframe>
@@ -464,7 +472,7 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-01-06T08:07:00+00:00",
+  "last_updated_utc": "2026-01-06T14:49:30+00:00",
   "lamp_status": "green",
   "lamp_message": "All systems operational",
   "data_time_start": "2025-11-06T15:29:24.223878",
@@ -513,16 +521,13 @@ async function main() {
   try {
     const m = METRICS_DATA;
 
-    // Set status lamp
     const lampEl = document.getElementById('status-lamp');
     const messageEl = document.getElementById('status-message');
     lampEl.className = 'status-lamp ' + m.lamp_status;
     messageEl.textContent = m.lamp_message;
 
-    // Display full JSON
     document.getElementById('metrics').textContent = JSON.stringify(m, null, 2);
 
-    // Helper functions
     const fmt = (x, suf='') => {
       if (x === null || x === undefined || Number.isNaN(x)) return '—';
       if (typeof x === 'number') {
@@ -536,21 +541,33 @@ async function main() {
       return val >= 0 ? 'positive' : 'negative';
     };
 
-    // KPI definitions
-    const kpis = [
-      { label: 'Portfolio Value', value: fmt(m.equity_last_usd, ' USD'), colorClass: '' },
-      { label: '7D Return', value: fmt(m.return_7d_pct, '%'), colorClass: getColorClass(m.return_7d_pct) },
-      { label: '14D Return', value: fmt(m.return_14d_pct, '%'), colorClass: getColorClass(m.return_14d_pct) },
-      { label: '30D Return', value: fmt(m.return_30d_pct, '%'), colorClass: getColorClass(m.return_30d_pct) },
-      { label: 'Total Return', value: fmt(m.return_total_pct, '%'), colorClass: getColorClass(m.return_total_pct) },
-      { label: '7D Max Drawdown', value: fmt(m.max_drawdown_7d_pct, '%'), colorClass: 'negative' },
-      { label: 'Max Drawdown', value: fmt(m.max_drawdown_pct, '%'), colorClass: 'negative' },
-      { label: 'Market Exposure', value: fmt(m.last_market_exposure, ''), colorClass: '' },
-      { label: 'Avg Leverage', value: fmt(m.avg_leverage_x, 'x'), colorClass: '' },
-      { label: 'Avg Gross Exposure', value: fmt(m.avg_gross_exposure_x, 'x'), colorClass: '' },
-    ];
+// Avg turnover from fee_and_session_stats (if available)
+const avgTurnoverPct =
+  m.fee_and_session_stats && m.fee_and_session_stats.avg_turnover_pct != null
+    ? m.fee_and_session_stats.avg_turnover_pct
+    : null;
 
-    // Render KPI cards
+// Convert decimal -> percentage (0.15 → 15.00)
+const avgTurnoverPctDisplay =
+  avgTurnoverPct === null || avgTurnoverPct === undefined
+    ? null
+    : avgTurnoverPct * 100;
+
+const kpis = [
+  { label: 'Portfolio Value', value: fmt(m.equity_last_usd, ' USD'), colorClass: '' },
+  { label: '7D Return', value: fmt(m.return_7d_pct, '%'), colorClass: getColorClass(m.return_7d_pct) },
+  { label: '14D Return', value: fmt(m.return_14d_pct, '%'), colorClass: getColorClass(m.return_14d_pct) },
+  { label: '30D Return', value: fmt(m.return_30d_pct, '%'), colorClass: getColorClass(m.return_30d_pct) },
+  { label: 'Total Return', value: fmt(m.return_total_pct, '%'), colorClass: getColorClass(m.return_total_pct) },
+  { label: '7D Max Drawdown', value: fmt(m.max_drawdown_7d_pct, '%'), colorClass: 'negative' },
+  { label: 'Max Drawdown', value: fmt(m.max_drawdown_pct, '%'), colorClass: 'negative' },
+  { label: 'Market Exposure', value: fmt(m.last_market_exposure, ''), colorClass: '' },
+  { label: 'Avg Leverage', value: fmt(m.avg_leverage_x, 'x'), colorClass: '' },
+  { label: 'Avg Gross Exposure', value: fmt(m.avg_gross_exposure_x, 'x'), colorClass: '' },
+  { label: 'Avg Turnover (all)', value: fmt(avgTurnoverPctDisplay, '%'), colorClass: '' },
+];
+
+
     const kpiGrid = document.getElementById('kpi-grid');
     kpiGrid.innerHTML = '';
     for (const kpi of kpis) {
@@ -563,7 +580,6 @@ async function main() {
       kpiGrid.appendChild(card);
     }
 
-    // Update time
     const startDate = new Date(m.data_time_start).toLocaleDateString();
     const endDate = new Date(m.data_time_end).toLocaleDateString();
     const updated = new Date(m.last_updated_utc).toLocaleString();
