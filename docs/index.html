@@ -19,7 +19,7 @@
       background: linear-gradient(135deg, #0f1419 0%, #1a1d29 100%);
       color: #e0e0e0;
       min-height: 100vh;
-      padding: 24px;
+      padding: 14px;
       animation: fadeIn 0.5s ease-in;
     }
 
@@ -225,16 +225,16 @@
 
     .charts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-      gap: 24px;
-      margin-bottom: 32px;
+      grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
     }
 
     .card {
       background: #1a1d29;
       border: 1px solid #2d3142;
-      border-radius: 16px;
-      padding: 20px;
+      border-radius: 14px;
+      padding: 12px;
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
@@ -264,7 +264,7 @@
     .card h3 {
       font-size: 16px;
       color: #e0e0e0;
-      margin-bottom: 16px;
+      margin-bottom: 8px;
       font-weight: 600;
       display: flex;
       align-items: center;
@@ -273,10 +273,15 @@
 
     iframe {
       width: 100%;
-      height: 440px;
+      height: 460px;
       border: none;
       border-radius: 12px;
       background: #1a1d29;
+    }
+
+    /* Slightly taller to fit the 30D return readout under the plot without iframe scrolling */
+    iframe.equity-frame {
+      height: 520px;
     }
 
     .metrics-card {
@@ -395,7 +400,7 @@
     <div class="charts-grid loading">
       <div class="card">
         <h3>📈 Equity Curve</h3>
-        <iframe src="equity.html"></iframe>
+        <iframe src="equity.html" class="equity-frame"></iframe>
       </div>
 
       
@@ -475,7 +480,7 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-01-15T15:51:04+00:00",
+  "last_updated_utc": "2026-01-15T16:52:14+00:00",
   "lamp_status": "green",
   "lamp_message": "All systems operational",
   "data_time_start": "2025-11-06T15:29:24.223878",
