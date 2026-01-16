@@ -271,6 +271,72 @@
       gap: 8px;
     }
 
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .card-header h3 {
+      margin-bottom: 0;
+    }
+
+    .equity-header {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .equity-header .range-buttons {
+      margin-left: auto;
+    }
+
+    .equity-c30dr {
+      font-size: 12px;
+      color: #9aa0aa;
+      font-weight: 700;
+      padding: 6px 10px;
+      border: 1px solid #2d3142;
+      border-radius: 10px;
+      background: #151826;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .range-buttons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .range-btn {
+      appearance: none;
+      border: 1px solid #2d3142;
+      background: #1e2330;
+      color: #cfd3da;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      line-height: 1;
+    }
+
+    .range-btn:hover {
+      border-color: #00d4ff;
+      color: #e0e0e0;
+      box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.12) inset;
+    }
+
+    .range-btn.active {
+      border-color: #00d4ff;
+      background: #0f1419;
+      color: #e0e0e0;
+    }
+
     iframe {
       width: 100%;
       height: 460px;
@@ -361,6 +427,15 @@
       iframe {
         height: 360px;
       }
+
+      iframe.equity-frame {
+        height: 430px;
+      }
+
+      .range-btn {
+        padding: 6px 8px;
+        font-size: 11px;
+      }
     }
 
     .loading {
@@ -399,8 +474,17 @@
 
     <div class="charts-grid loading">
       <div class="card">
-        <h3>📈 Equity Curve</h3>
-        <iframe src="equity.html" class="equity-frame"></iframe>
+        <div class="card-header equity-header">
+          <h3>📈 Equity Curve</h3>
+          <div class="equity-c30dr" id="equity-c30dr">c30dR: —</div>
+          <div class="range-buttons" aria-label="Equity range presets">
+            <button class="range-btn" data-range="7d" type="button">7D</button>
+            <button class="range-btn" data-range="14d" type="button">14D</button>
+            <button class="range-btn" data-range="30d" type="button">30D</button>
+            <button class="range-btn" data-range="all" type="button">All</button>
+          </div>
+        </div>
+        <iframe src="equity.html?v=1768577623" class="equity-frame" id="equity-iframe"></iframe>
       </div>
 
       
@@ -480,7 +564,7 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-01-16T08:07:07+00:00",
+  "last_updated_utc": "2026-01-16T15:33:43+00:00",
   "lamp_status": "green",
   "lamp_message": "All systems operational",
   "data_time_start": "2025-11-06T15:29:24.223878",
@@ -524,6 +608,52 @@ const METRICS_DATA = {
     "Volume": 339739.4051424194
   }
 };
+
+function setupEquityC30drDisplay() {
+  const el = document.getElementById('equity-c30dr');
+  if (!el) return;
+
+  function fmtPct(x) {
+    if (x === null || x === undefined || !Number.isFinite(x)) return '—';
+    const sign = x >= 0 ? '+' : '';
+    return sign + x.toFixed(2) + '%';
+  }
+
+  window.addEventListener('message', (ev) => {
+    const msg = ev && ev.data;
+    if (!msg || msg.type !== 'equity_c30dr') return;
+    el.textContent = 'c30dR: ' + fmtPct(msg.est30);
+  });
+}
+
+function setupEquityRangeButtons() {
+  const iframe = document.getElementById('equity-iframe');
+  const buttons = Array.from(document.querySelectorAll('.range-btn'));
+  if (!iframe || buttons.length === 0) return;
+
+  function setActive(activeBtn) {
+    for (const b of buttons) b.classList.toggle('active', b === activeBtn);
+  }
+
+  for (const btn of buttons) {
+    btn.addEventListener('click', () => {
+      const range = btn.getAttribute('data-range');
+      setActive(btn);
+      try {
+        iframe.contentWindow && iframe.contentWindow.postMessage(
+          { type: 'equity_set_range', range },
+          '*'
+        );
+      } catch (e) {
+        console.warn('Could not postMessage to equity iframe', e);
+      }
+    });
+  }
+
+  // Default selected button
+  const def = document.querySelector('.range-btn[data-range="7d"]');
+  if (def) def.classList.add('active');
+}
 
 async function main() {
   try {
@@ -609,6 +739,10 @@ async function main() {
       <strong>Data Range:</strong> ${startDate} → ${endDate}<br>
       <strong>Last Updated:</strong> ${updated}
     `;
+
+    // Wire up equity range preset buttons
+    setupEquityRangeButtons();
+    setupEquityC30drDisplay();
 
   } catch (e) {
     document.getElementById('metrics').textContent = 'Failed to load metrics.json: ' + e;
