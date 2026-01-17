@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategy Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1d29 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid #2d3142;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d4ff 0%, #be4bdb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 15px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .kpi-card {
+            background: linear-gradient(135deg, #1e2330 0%, #252935 100%);
+            border: 1px solid #2d3142;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            border-color: #00d4ff;
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.15);
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e0e0e0;
+        }
+
+        .kpi-value.positive { color: #51cf66; }
+        .kpi-value.negative { color: #ff6b6b; }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: #1a1d29;
+            border: 1px solid #2d3142;
+            border-radius: 14px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: #3d4052;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .chart {
+            width: 100%;
+            height: 400px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: #666;
+            font-size: 13px;
+            border-top: 1px solid #2d3142;
+            margin-top: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Strategy Performance Dashboard</h1>
+            <div class="subtitle">
+                Real-time analytics • Interactive charts • Hover to explore
+            </div>
+        </header>
+
+        <div class="kpi-grid" id="kpi-grid"></div>
+
+        <div class="charts-grid">
+            <div class="card">
+                <h3>📈 Equity Curve (USD)</h3>
+                <div id="equity-chart" class="chart"></div>
+            </div>
+
+            <div class="card">
+                <h3>📉 Drawdown</h3>
+                <div id="drawdown-chart" class="chart"></div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Strategy vs S&P 500</h3>
+                <div id="comparison-chart" class="chart"></div>
+            </div>
+
+            <div class="card">
+                <h3>💼 Current Holdings</h3>
+                <div id="holdings-chart" class="chart"></div>
+            </div>
+
+            <div class="card">
+                <h3>🔄 Turnover per Session</h3>
+                <div id="turnover-chart" class="chart"></div>
+            </div>
+
+            <div class="card">
+                <h3>📈 Session Returns</h3>
+                <div id="session-returns-chart" class="chart"></div>
+            </div>
+
+            <div class="card">
+                <h3>💰 Capital Invested</h3>
+                <div id="invested-chart" class="chart"></div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Number of Holdings</h3>
+                <div id="holdings-count-chart" class="chart"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Last updated: <span id="update-time"></span></p>
+        </div>
+    </div>
+
+    <script>
+        const CHART_DATA = {"timestamps": ["2026-01-15 17:35:34", "2026-01-16 17:35:27"], "equity_usd": [107307.07457337355, 106563.92143594324], "equity_sek": [989674.87, 983549.8], "sp500": [6971.5, 6952.10986328125], "invested_pct": [94.99630886899055, 93.97885198903812], "turnover_pct": [47.52685524548592, 47.97578793265332], "session_change_pct": [-0.0696662468281086, -0.1054643972522052], "nr_holdings": [10, 10], "drawdown_pct": [0.0, -0.6925481291749969]};
+        const METRICS = {"last_updated_utc": "2026-01-17T16:18:01.074030+00:00", "data_start": "2026-01-15T17:35:34.257057", "data_end": "2026-01-16T17:35:27.654413", "equity_start_usd": 107307.07457337355, "equity_last_usd": 106563.92143594324, "equity_start_sek": 989674.87, "equity_last_sek": 983549.8, "return_total_pct": -0.6925481291749969, "return_7d_pct": -0.6925481291749969, "return_14d_pct": -0.6925481291749969, "return_30d_pct": -0.6925481291749969, "max_drawdown_pct": -0.6925481291749969, "current_drawdown_pct": -0.6925481291749969, "avg_invested_pct": 94.48758042901434, "current_invested_pct": 93.97885198903812, "avg_holdings": 10.0, "current_holdings": 10, "avg_turnover_pct": 47.75132158906962, "avg_session_change_pct": -0.0875653220401569, "best_session_pct": -0.0696662468281086, "worst_session_pct": -0.1054643972522052, "sp500_start": 6971.5, "sp500_last": 6952.10986328125, "sp500_return_pct": -0.27813435729397984, "latest_holdings": {"CEG": 10221.75, "UHS": 10216.83, "MTCH": 10145.43, "TRMB": 10123.699999999999, "QCOM": 10104.57, "ALL": 10070.84, "APP": 9989.54, "TRV": 9965.21, "BIIB": 9784.56, "HOOD": 9525.119999999999}};
+
+        const CHART_LAYOUT = {
+            paper_bgcolor: '#1a1d29',
+            plot_bgcolor: '#1a1d29',
+            font: { color: '#e0e0e0' },
+            xaxis: {
+                gridcolor: '#2d3142',
+                zerolinecolor: '#2d3142'
+            },
+            yaxis: {
+                gridcolor: '#2d3142',
+                zerolinecolor: '#2d3142'
+            },
+            margin: { l: 60, r: 40, t: 20, b: 60 },
+            hovermode: 'x unified'
+        };
+
+        const CHART_CONFIG = {
+            displaylogo: false,
+            responsive: true
+        };
+
+        function fmt(val, suffix = '') {
+            if (val === null || val === undefined || isNaN(val)) return '—';
+            return val.toFixed(2) + suffix;
+        }
+
+        function getColorClass(val) {
+            if (val === null || val === undefined || isNaN(val)) return '';
+            return val >= 0 ? 'positive' : 'negative';
+        }
+
+        // Render KPIs
+        const kpis = [
+            { label: 'Portfolio Value (USD)', value: fmt(METRICS.equity_last_usd, ' $'), colorClass: '' },
+            { label: 'Portfolio Value (SEK)', value: fmt(METRICS.equity_last_sek, ' kr'), colorClass: '' },
+            { label: 'Total Return', value: fmt(METRICS.return_total_pct, '%'), colorClass: getColorClass(METRICS.return_total_pct) },
+            { label: 'S&P 500 Return', value: fmt(METRICS.sp500_return_pct, '%'), colorClass: getColorClass(METRICS.sp500_return_pct) },
+            { label: '7D Return', value: fmt(METRICS.return_7d_pct, '%'), colorClass: getColorClass(METRICS.return_7d_pct) },
+            { label: '30D Return', value: fmt(METRICS.return_30d_pct, '%'), colorClass: getColorClass(METRICS.return_30d_pct) },
+            { label: 'Max Drawdown', value: fmt(METRICS.max_drawdown_pct, '%'), colorClass: 'negative' },
+            { label: 'Current Drawdown', value: fmt(METRICS.current_drawdown_pct, '%'), colorClass: 'negative' },
+            { label: 'Avg Invested', value: fmt(METRICS.avg_invested_pct, '%'), colorClass: '' },
+            { label: 'Current Invested', value: fmt(METRICS.current_invested_pct, '%'), colorClass: '' },
+            { label: 'Avg Holdings', value: fmt(METRICS.avg_holdings, ''), colorClass: '' },
+            { label: 'Avg Turnover', value: fmt(METRICS.avg_turnover_pct, '%'), colorClass: '' },
+        ];
+
+        const kpiGrid = document.getElementById('kpi-grid');
+        kpis.forEach(kpi => {
+            const card = document.createElement('div');
+            card.className = 'kpi-card';
+            card.innerHTML = `
+                <div class="kpi-label">${kpi.label}</div>
+                <div class="kpi-value ${kpi.colorClass}">${kpi.value}</div>
+            `;
+            kpiGrid.appendChild(card);
+        });
+
+        // Equity Chart
+        Plotly.newPlot('equity-chart', [{
+            x: CHART_DATA.timestamps,
+            y: CHART_DATA.equity_usd,
+            type: 'scatter',
+            mode: 'lines',
+            line: { color: '#00d4ff', width: 2 },
+            name: 'Equity (USD)'
+        }], CHART_LAYOUT, CHART_CONFIG);
+
+        // Drawdown Chart
+        Plotly.newPlot('drawdown-chart', [{
+            x: CHART_DATA.timestamps,
+            y: CHART_DATA.drawdown_pct,
+            type: 'scatter',
+            mode: 'lines',
+            fill: 'tozeroy',
+            line: { color: '#ff6b6b', width: 2 },
+            fillcolor: 'rgba(255, 107, 107, 0.2)',
+            name: 'Drawdown (%)'
+        }], CHART_LAYOUT, CHART_CONFIG);
+
+        // Comparison Chart (normalized to 100)
+        const equityNorm = CHART_DATA.equity_usd.map(v => (v / CHART_DATA.equity_usd[0]) * 100);
+        const sp500Norm = CHART_DATA.sp500.map(v => (v / CHART_DATA.sp500[0]) * 100);
+
+        Plotly.newPlot('comparison-chart', [
+            {
+                x: CHART_DATA.timestamps,
+                y: equityNorm,
+                type: 'scatter',
+                mode: 'lines',
+                line: { color: '#00d4ff', width: 2 },
+                name: 'Strategy'
+            },
+            {
+                x: CHART_DATA.timestamps,
+                y: sp500Norm,
+                type: 'scatter',
+                mode: 'lines',
+                line: { color: '#be4bdb', width: 2 },
+                name: 'S&P 500'
+            }
+        ], {
+            ...CHART_LAYOUT,
+            yaxis: { ...CHART_LAYOUT.yaxis, title: 'Normalized to 100' }
+        }, CHART_CONFIG);
+
+        // Holdings Chart
+        const holdingsLabels = ["CEG", "UHS", "MTCH", "TRMB", "QCOM", "ALL", "APP", "TRV", "BIIB", "HOOD"];
+        const holdingsValues = [10221.75, 10216.83, 10145.43, 10123.699999999999, 10104.57, 10070.84, 9989.54, 9965.21, 9784.56, 9525.119999999999];
+        const holdingsColors = holdingsValues.map(v => v >= 0 ? '#51cf66' : '#ff6b6b');
+
+        if (holdingsLabels.length > 0) {
+            Plotly.newPlot('holdings-chart', [{
+                x: holdingsLabels,
+                y: holdingsValues,
+                type: 'bar',
+                marker: { color: holdingsColors }
+            }], {
+                ...CHART_LAYOUT,
+                yaxis: { ...CHART_LAYOUT.yaxis, title: 'USD Value' }
+            }, CHART_CONFIG);
+        }
+
+        // Turnover Chart
+        Plotly.newPlot('turnover-chart', [{
+            x: CHART_DATA.timestamps,
+            y: CHART_DATA.turnover_pct,
+            type: 'scatter',
+            mode: 'lines+markers',
+            line: { color: '#be4bdb', width: 2 },
+            marker: { size: 6 },
+            name: 'Turnover (%)'
+        }], CHART_LAYOUT, CHART_CONFIG);
+
+        // Session Returns Chart
+        Plotly.newPlot('session-returns-chart', [{
+            x: CHART_DATA.timestamps,
+            y: CHART_DATA.session_change_pct,
+            type: 'bar',
+            marker: {
+                color: CHART_DATA.session_change_pct.map(v => v >= 0 ? '#51cf66' : '#ff6b6b')
+            }
+        }], {
+            ...CHART_LAYOUT,
+            yaxis: { ...CHART_LAYOUT.yaxis, title: 'Session Return (%)' }
+        }, CHART_CONFIG);
+
+        // Invested Chart
+        Plotly.newPlot('invested-chart', [{
+            x: CHART_DATA.timestamps,
+            y: CHART_DATA.invested_pct,
+            type: 'scatter',
+            mode: 'lines',
+            line: { color: '#51cf66', width: 2 },
+            name: 'Invested (%)'
+        }], CHART_LAYOUT, CHART_CONFIG);
+
+        // Holdings Count Chart
+        Plotly.newPlot('holdings-count-chart', [{
+            x: CHART_DATA.timestamps,
+            y: CHART_DATA.nr_holdings,
+            type: 'scatter',
+            mode: 'lines+markers',
+            line: { color: '#ffa94d', width: 2 },
+            marker: { size: 6 },
+            name: 'Number of Holdings'
+        }], CHART_LAYOUT, CHART_CONFIG);
+
+        // Update time
+        document.getElementById('update-time').textContent = new Date(METRICS.last_updated_utc).toLocaleString();
+    </script>
+</body>
+</html>
