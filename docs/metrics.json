@@ -1,5 +1,5 @@
 {
-  "last_updated_utc": "2026-01-19T08:07:10+00:00",
+  "last_updated_utc": "2026-01-19T12:53:40+00:00",
   "lamp_status": "green",
   "lamp_message": "All systems operational",
   "data_time_start": "2025-11-06T15:29:24.223878",
@@ -25,10 +25,10 @@
     "median_turnover_pct": 0.26445544188496617,
     "avg_fee_est_pct_capital": 0.00016055430068407457,
     "median_fee_est_pct_capital": 0.00011371584001053545,
-    "avg_session_return_pct": -0.005149862104293399,
-    "median_session_return_pct": -0.0012737998452824499,
-    "worst_session_return_pct": -4.303744999999992,
-    "best_session_return_pct": 3.8476510000000417
+    "avg_session_return_pct": -0.5149862104293407,
+    "median_session_return_pct": -0.127379984528245,
+    "worst_session_return_pct": -430.3744999999992,
+    "best_session_return_pct": 384.76510000000417
   },
   "macro_snapshot": {
     "ROC4h": -0.0020594332458693,

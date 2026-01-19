@@ -283,12 +283,12 @@
       margin-bottom: 0;
     }
 
-    .equity-header {
+    .range-header {
       justify-content: flex-start;
       flex-wrap: wrap;
     }
 
-    .equity-header .range-buttons {
+    .range-header .range-buttons {
       margin-left: auto;
     }
 
@@ -474,18 +474,46 @@
 
     <div class="charts-grid loading">
       <div class="card">
-        <div class="card-header equity-header">
+        <div class="card-header range-header">
           <h3>📈 Equity Curve</h3>
           <div class="equity-c30dr" id="equity-c30dr">c30dR: —</div>
-          <div class="range-buttons" aria-label="Equity range presets">
+          <div class="range-buttons" data-target="equity" aria-label="Equity range presets">
             <button class="range-btn" data-range="7d" type="button">7D</button>
             <button class="range-btn" data-range="14d" type="button">14D</button>
             <button class="range-btn" data-range="30d" type="button">30D</button>
             <button class="range-btn" data-range="all" type="button">All</button>
           </div>
         </div>
-        <iframe src="equity.html?v=1768810030" class="equity-frame" id="equity-iframe"></iframe>
+        <iframe src="equity.html?v=1768827220" class="equity-frame" id="equity-iframe"></iframe>
       </div>
+
+      
+    <div class="card">
+      <div class="card-header range-header">
+        <h3>📈 Delta ROC (7 & 14)</h3>
+        <div class="range-buttons" data-target="macro-delta" aria-label="Delta ROC range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+      </div>
+      <iframe src="macro_deltaROC.html" id="macro-delta-iframe"></iframe>
+    </div>
+
+      
+    <div class="card">
+      <div class="card-header range-header">
+        <h3>📉 Stoch Delta ROC (7 & 14)</h3>
+        <div class="range-buttons" data-target="macro-stoch-delta" aria-label="Stoch Delta ROC range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+      </div>
+      <iframe src="macro_stoch_deltaROC.html" id="macro-stoch-delta-iframe"></iframe>
+    </div>
 
       
     <div class="card">
@@ -495,21 +523,53 @@
 
 
       <div class="card">
-        <h3>📉 Drawdown</h3>
-        <iframe src="drawdown.html"></iframe>
+        <div class="card-header range-header">
+          <h3>📉 Drawdown</h3>
+          <div class="range-buttons" data-target="drawdown" aria-label="Drawdown range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+        </div>
+        <iframe src="drawdown.html" id="drawdown-iframe"></iframe>
       </div>
       <div class="card">
-        <h3>🎯 Net Market Exposure</h3>
-        <iframe src="exposure.html"></iframe>
+        <div class="card-header range-header">
+          <h3>🎯 Net Market Exposure</h3>
+          <div class="range-buttons" data-target="exposure" aria-label="Exposure range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+        </div>
+        <iframe src="exposure.html" id="exposure-iframe"></iframe>
       </div>
       <div class="card">
-        <h3>⚖️ Leverage</h3>
-        <iframe src="leverage.html"></iframe>
+        <div class="card-header range-header">
+          <h3>⚖️ Leverage</h3>
+          <div class="range-buttons" data-target="leverage" aria-label="Leverage range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+        </div>
+        <iframe src="leverage.html" id="leverage-iframe"></iframe>
       </div>
       
     <div class="card">
-      <h3>📊 Number of Longs & Shorts</h3>
-      <iframe src="positions.html"></iframe>
+      <div class="card-header range-header">
+        <h3>📊 Number of Longs & Shorts</h3>
+        <div class="range-buttons" data-target="positions" aria-label="Positions range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+      </div>
+      <iframe src="positions.html" id="positions-iframe"></iframe>
     </div>
 
       
@@ -520,32 +580,59 @@
 
       
     <div class="card">
-      <h3>🎯 Session Return by Strategy</h3>
-      <iframe src="strategy.html"></iframe>
+      <div class="card-header range-header">
+        <h3>🔄 Turnover per Session</h3>
+        <div class="range-buttons" data-target="turnover" aria-label="Turnover range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+      </div>
+      <iframe src="turnover.html" id="turnover-iframe"></iframe>
     </div>
 
       
     <div class="card">
-      <h3>📈 Delta ROC (7 & 14)</h3>
-      <iframe src="macro_deltaROC.html"></iframe>
+      <div class="card-header range-header">
+        <h3>📈 Session Return per Session</h3>
+        <div class="equity-c30dr" id="session-return-avg">avg: —</div>
+        <div class="range-buttons" data-target="session-return" aria-label="Session return range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+      </div>
+      <iframe src="session_return.html" id="session-return-iframe"></iframe>
     </div>
 
       
     <div class="card">
-      <h3>📉 Stoch Delta ROC (7 & 14)</h3>
-      <iframe src="macro_stoch_deltaROC.html"></iframe>
+      <div class="card-header range-header">
+        <h3>🔁 Iterations per Session</h3>
+        <div class="range-buttons" data-target="iterations" aria-label="Iterations range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+      </div>
+      <iframe src="iterations.html" id="iterations-iframe"></iframe>
     </div>
 
       
     <div class="card">
-      <h3>🔄 Turnover per Session</h3>
-      <iframe src="turnover.html"></iframe>
-    </div>
-
-      
-    <div class="card">
-      <h3>💸 Estimated Fees per Session</h3>
-      <iframe src="fees.html"></iframe>
+      <div class="card-header range-header">
+        <h3>⏱️ Trade Time per Session</h3>
+        <div class="range-buttons" data-target="tradetime" aria-label="Trade time range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+      </div>
+      <iframe src="tradetime.html" id="tradetime-iframe"></iframe>
     </div>
 
     </div>
@@ -564,7 +651,7 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-01-19T08:07:10+00:00",
+  "last_updated_utc": "2026-01-19T12:53:40+00:00",
   "lamp_status": "green",
   "lamp_message": "All systems operational",
   "data_time_start": "2025-11-06T15:29:24.223878",
@@ -590,10 +677,10 @@ const METRICS_DATA = {
     "median_turnover_pct": 0.26445544188496617,
     "avg_fee_est_pct_capital": 0.00016055430068407457,
     "median_fee_est_pct_capital": 0.00011371584001053545,
-    "avg_session_return_pct": -0.005149862104293399,
-    "median_session_return_pct": -0.0012737998452824499,
-    "worst_session_return_pct": -4.303744999999992,
-    "best_session_return_pct": 3.8476510000000417
+    "avg_session_return_pct": -0.5149862104293407,
+    "median_session_return_pct": -0.127379984528245,
+    "worst_session_return_pct": -430.3744999999992,
+    "best_session_return_pct": 384.76510000000417
   },
   "macro_snapshot": {
     "ROC4h": -0.0020594332458693,
@@ -626,33 +713,61 @@ function setupEquityC30drDisplay() {
   });
 }
 
-function setupEquityRangeButtons() {
-  const iframe = document.getElementById('equity-iframe');
-  const buttons = Array.from(document.querySelectorAll('.range-btn'));
-  if (!iframe || buttons.length === 0) return;
 
-  function setActive(activeBtn) {
-    for (const b of buttons) b.classList.toggle('active', b === activeBtn);
+
+function setupSessionReturnAvgDisplay() {
+  const el = document.getElementById('session-return-avg');
+  if (!el) return;
+
+  function fmtPct(x) {
+    if (x === null || x === undefined || !Number.isFinite(x)) return '—';
+    const sign = x >= 0 ? '+' : '';
+    return sign + x.toFixed(2) + '%';
   }
 
-  for (const btn of buttons) {
-    btn.addEventListener('click', () => {
-      const range = btn.getAttribute('data-range');
-      setActive(btn);
-      try {
-        iframe.contentWindow && iframe.contentWindow.postMessage(
-          { type: 'equity_set_range', range },
-          '*'
-        );
-      } catch (e) {
-        console.warn('Could not postMessage to equity iframe', e);
-      }
-    });
-  }
+  window.addEventListener('message', (ev) => {
+    const msg = ev && ev.data;
+    if (!msg || msg.type !== 'session_return_avg') return;
+    el.textContent = 'avg: ' + fmtPct(msg.avg);
+  });
+}
 
-  // Default selected button
-  const def = document.querySelector('.range-btn[data-range="7d"]');
-  if (def) def.classList.add('active');
+
+
+function setupRangeButtons() {
+  const groups = Array.from(document.querySelectorAll('.range-buttons[data-target]'));
+  if (groups.length === 0) return;
+
+  for (const group of groups) {
+    const target = group.getAttribute('data-target');
+    const iframe = document.getElementById(target + '-iframe');
+    if (!iframe) continue;
+
+    const buttons = Array.from(group.querySelectorAll('.range-btn'));
+    if (buttons.length === 0) continue;
+
+    function setActive(activeBtn) {
+      for (const b of buttons) b.classList.toggle('active', b === activeBtn);
+    }
+
+    for (const btn of buttons) {
+      btn.addEventListener('click', () => {
+        const range = btn.getAttribute('data-range');
+        setActive(btn);
+        try {
+          iframe.contentWindow && iframe.contentWindow.postMessage(
+            { type: 'set_range', range: range },
+            '*'
+          );
+        } catch (e) {
+          console.warn('Could not postMessage to iframe', target, e);
+        }
+      });
+    }
+
+    const def = group.querySelector('.range-btn[data-range="7d"]');
+    if (def) def.classList.add('active');
+  }
 }
 
 async function main() {
@@ -741,8 +856,9 @@ async function main() {
     `;
 
     // Wire up equity range preset buttons
-    setupEquityRangeButtons();
+    setupRangeButtons();
     setupEquityC30drDisplay();
+    setupSessionReturnAvgDisplay();
 
   } catch (e) {
     document.getElementById('metrics').textContent = 'Failed to load metrics.json: ' + e;
