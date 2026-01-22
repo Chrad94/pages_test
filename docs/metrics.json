@@ -1,5 +1,5 @@
 {
-  "last_updated_utc": "2026-01-22T20:07:17+00:00",
+  "last_updated_utc": "2026-01-22T20:41:44+00:00",
   "lamp_status": "green",
   "lamp_message": "All systems operational",
   "data_time_start": "2025-11-06T15:29:24.223878",
@@ -13,7 +13,7 @@
   "max_drawdown_pct": -45.33268564021758,
   "max_drawdown_7d_pct": -8.44238991714289,
   "avg_leverage_x": 5.108716705716404,
-  "avg_gross_exposure_x": 5.108716705716404,
+  "avg_gross_exposure_x": 5.1057210065793495,
   "avg_abs_market_exposure": 0.2193547535709976,
   "last_market_exposure": 1.0101032270314083,
   "last_nr_longs": 5,
@@ -25,8 +25,8 @@
     "median_turnover_pct": 0.2588245610209628,
     "avg_fee_est_pct_capital": 0.0001576542141032999,
     "median_fee_est_pct_capital": 0.000111294561239014,
-    "avg_session_return_pct": -0.5045017858607365,
-    "median_session_return_pct": -0.1281078835027,
+    "avg_session_return_pct": -0.4588336434544339,
+    "median_session_return_pct": -0.12023661829209001,
     "worst_session_return_pct": -430.3744999999992,
     "best_session_return_pct": 384.76510000000417
   },
