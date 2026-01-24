@@ -484,7 +484,7 @@
             <button class="range-btn" data-range="all" type="button">All</button>
           </div>
         </div>
-        <iframe src="equity.html?v=1769279835" class="equity-frame" id="equity-iframe"></iframe>
+        <iframe src="equity.html?v=1769282474" class="equity-frame" id="equity-iframe"></iframe>
       </div>
 
       
@@ -657,12 +657,12 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-01-24T18:37:15+00:00",
-  "lamp_status": "green",
-  "lamp_message": "OK",
+  "last_updated_utc": "2026-01-24T19:21:14+00:00",
+  "lamp_status": "yellow",
+  "lamp_message": "stale data (11.2h > 10h)",
   "data_time_start": "2025-11-06T15:29:24.223878",
   "data_time_end": "2026-01-24T09:10:15.533446",
-  "data_age_hours": 10.449854889722221,
+  "data_age_hours": 11.182918943055556,
   "last_iterations": 2.0,
   "trade_session_return_pct": 0.4240955,
   "equity_start_usd": 226.606537,
@@ -814,9 +814,33 @@ async function main() {
   try {
     const m = METRICS_DATA;
 
-    // ----- Dynamic favicon based on lamp_status -----
+    // ----- Helpers: parse timestamps (supports microseconds) -----
+    function parseDateFlexible(s) {
+      if (!s) return null;
+      let t = String(s).trim();
+      // Normalize "YYYY-MM-DD HH:MM:SS" -> ISO-ish
+      t = t.replace(' ', 'T');
+      // Trim microseconds to milliseconds for JS Date parsing
+      t = t.replace(/(\.\d{3})\d+/, '$1');
+      let d = new Date(t);
+      if (!isNaN(d)) return d;
+      // Fallback: drop fractional seconds entirely
+      t = t.replace(/\.\d+/, '');
+      d = new Date(t);
+      if (!isNaN(d)) return d;
+      return null;
+    }
+
+    function computeAgeHours(endStr) {
+      const d = parseDateFlexible(endStr);
+      if (!d) return null;
+      return (Date.now() - d.getTime()) / 3600000;
+    }
+
+    // ----- Dynamic favicon + status lamp (staleness computed client-side on refresh) -----
     const faviconEl = document.getElementById('dynamic-favicon');
-    const status = m.lamp_status || 'red';
+    const lampEl = document.getElementById('status-lamp');
+    const messageEl = document.getElementById('status-message');
 
     const faviconMap = {
       green: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='24' fill='%2351cf66'/></svg>",
@@ -824,15 +848,39 @@ async function main() {
       red: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='24' fill='%23ff6b6b'/></svg>",
     };
 
-    if (faviconEl && faviconMap[status]) {
-      faviconEl.href = faviconMap[status];
+    function applyLamp(status, message) {
+      const s = status || 'red';
+      if (lampEl) lampEl.className = 'status-lamp ' + s;
+      if (messageEl) messageEl.textContent = message || '';
+      if (faviconEl && faviconMap[s]) faviconEl.href = faviconMap[s];
     }
 
-    // ----- Status lamp + metrics -----
-    const lampEl = document.getElementById('status-lamp');
-    const messageEl = document.getElementById('status-message');
-    lampEl.className = 'status-lamp ' + m.lamp_status;
-    messageEl.textContent = m.lamp_message;
+    function computeLampFromStaleness() {
+      const baseStatus = m.lamp_status || 'red';
+      const baseMessage = m.lamp_message || '';
+
+      const ageH = computeAgeHours(m.data_time_end);
+      const stale = (ageH !== null && Number.isFinite(ageH) && ageH > 10);
+
+      let status = baseStatus;
+      let message = baseMessage;
+
+      if (stale) {
+        if (status !== 'red') status = 'yellow';
+        const extra = 'STALE: ' + ageH.toFixed(2) + 'h since data_time_end';
+        if (!message) message = extra;
+        else if (!message.includes('STALE:')) message = message + ' | ' + extra;
+      }
+
+      // Update optional Data Age field if present
+      const ageEl = document.getElementById('data-age');
+      if (ageEl) ageEl.textContent = (ageH === null || !Number.isFinite(ageH)) ? '—' : (ageH.toFixed(2) + 'h');
+
+      applyLamp(status, message);
+    }
+
+    computeLampFromStaleness();
+    setInterval(computeLampFromStaleness, 60 * 1000);
 
     document.getElementById('metrics').textContent = JSON.stringify(m, null, 2);
 
@@ -892,8 +940,11 @@ async function main() {
     const updated = new Date(m.last_updated_utc).toLocaleString();
     document.getElementById('update-time').innerHTML = `
       <strong>Data Range:</strong> ${startDate} → ${endDate}<br>
-      <strong>Last Updated:</strong> ${updated}
+      <strong>Last Updated:</strong> ${updated}<br>
+      <strong>Data Age:</strong> <span id="data-age">—</span>
     `;
+    // Recompute staleness now that #data-age exists
+    computeLampFromStaleness();
 
     // Wire up equity range preset buttons
     setupRangeButtons();
