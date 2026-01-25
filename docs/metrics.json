@@ -1,10 +1,10 @@
 {
-  "last_updated_utc": "2026-01-25T20:10:34+00:00",
+  "last_updated_utc": "2026-01-25T20:28:14+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
   "data_time_end": "2026-01-25T21:10:24.223998",
-  "data_age_hours": 0.0027521969444444447,
+  "data_age_hours": 0.2973441136111111,
   "last_iterations": 2.0,
   "trade_session_return_pct": -0.5370964361890299,
   "equity_start_usd": 226.606537,
@@ -32,8 +32,8 @@
     "worst_session_return_pct": -2.3911479330844,
     "best_session_return_pct": 1.23460631571783
   },
-  "strategy_weighted_avg_return_pct": 10.373249502122349,
-  "strategy_weighted_30d_return_pct": 37210.384868207955,
+  "strategy_weighted_avg_return_pct": 1.4826731419258012,
+  "strategy_weighted_30d_return_pct": 141.8320757892249,
   "macro_snapshot": {
     "ROC4h": -0.022875829120168,
     "ROC24h": -0.0627419463585603,
