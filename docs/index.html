@@ -484,7 +484,7 @@
             <button class="range-btn" data-range="all" type="button">All</button>
           </div>
         </div>
-        <iframe src="equity.html?v=1769504132" class="equity-frame" id="equity-iframe"></iframe>
+        <iframe src="equity.html?v=1769527082" class="equity-frame" id="equity-iframe"></iframe>
       </div>
 
       
@@ -657,14 +657,15 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-01-27T08:55:32+00:00",
+  "last_updated_utc": "2026-01-27T15:18:02+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
   "data_time_end": "2026-01-27T09:55:22.737963",
-  "data_age_hours": 0.002811493333333333,
+  "data_age_hours": 6.3777171330555555,
   "last_iterations": 7.0,
   "trade_session_return_pct": -1.55366870045383,
+  "strategy_last": "neutral",
   "equity_start_usd": 226.606537,
   "equity_last_usd": 9783.26492,
   "return_total_pct": 4217.291570454562,
@@ -911,6 +912,7 @@ async function main() {
 
     const kpis = [
       { label: 'Portfolio Value', value: fmt(m.equity_last_usd, ' USD'), colorClass: '' },
+      { label: 'Strategy', value: (m.strategy_last || '—'), colorClass: '' },
       { label: '7D Return', value: fmt(m.return_7d_pct, '%'), colorClass: getColorClass(m.return_7d_pct) },
       { label: '14D Return', value: fmt(m.return_14d_pct, '%'), colorClass: getColorClass(m.return_14d_pct) },
       { label: '30D Return', value: fmt(m.return_30d_pct, '%'), colorClass: getColorClass(m.return_30d_pct) },
