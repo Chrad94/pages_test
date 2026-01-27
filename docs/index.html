@@ -484,18 +484,44 @@
             <button class="range-btn" data-range="all" type="button">All</button>
           </div>
         </div>
-        <iframe src="equity.html?v=1769542902" class="equity-frame" id="equity-iframe"></iframe>
+        <iframe src="equity.html?v=1769544451" class="equity-frame" id="equity-iframe"></iframe>
       </div>
 
       
+    <div class="card">
+      <div class="card-header range-header">
+        <h3>📈 Delta ROC (7 & 14)</h3>
+        <div class="range-buttons" data-target="macro-delta" aria-label="Delta ROC range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+      </div>
+      <iframe src="macro_deltaROC.html" id="macro-delta-iframe"></iframe>
+    </div>
+
       
+    <div class="card">
+      <div class="card-header range-header">
+        <h3>📉 Stoch Delta ROC (7 & 14)</h3>
+        <div class="range-buttons" data-target="macro-stoch-delta" aria-label="Stoch Delta ROC range presets">
+          <button class="range-btn" data-range="7d" type="button">7D</button>
+          <button class="range-btn" data-range="14d" type="button">14D</button>
+          <button class="range-btn" data-range="30d" type="button">30D</button>
+          <button class="range-btn" data-range="all" type="button">All</button>
+        </div>
+      </div>
+      <iframe src="macro_stoch_deltaROC.html" id="macro-stoch-delta-iframe"></iframe>
+    </div>
+
       
     <div class="card">
       <div class="card-header range-header">
         <h3>📊 Avg Return per Strategy</h3>
         <div class="range-buttons" aria-label="Weighted strategy returns">
-          <div class="equity-c30dr" id="strategy-wavg">avg: +1.36%</div>
-          <div class="equity-c30dr" id="strategy-30d">30d: +125.43%</div>
+          <div class="equity-c30dr" id="strategy-wavg">avg: +1.31%</div>
+          <div class="equity-c30dr" id="strategy-30d">30d: +118.21%</div>
         </div>
       </div>
       <iframe src="strategy_return_hist.html"></iframe>
@@ -631,43 +657,54 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-01-27T19:41:42+00:00",
+  "last_updated_utc": "2026-01-27T20:07:31+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
-  "data_time_end": "2026-01-27T20:41:32.995624",
-  "data_age_hours": 0.0027036158333333333,
+  "data_time_end": "2026-01-27T21:07:27.092206",
+  "data_age_hours": 0.0011076525,
   "last_iterations": 2.0,
-  "trade_session_return_pct": -0.47873138007543997,
-  "strategy_last": "neutral",
+  "trade_session_return_pct": -0.8576574893890601,
+  "strategy_last": "Momentum",
   "equity_start_usd": 226.606537,
-  "equity_last_usd": 9875.904428,
-  "return_total_pct": 4258.172786515863,
-  "return_7d_pct": 364.17323081028627,
-  "return_14d_pct": 1161.4319723756498,
-  "return_30d_pct": 1601.305018143665,
+  "equity_last_usd": 9755.411645,
+  "return_total_pct": 4205.000100239827,
+  "return_7d_pct": 325.5465917171864,
+  "return_14d_pct": 1139.3545911582194,
+  "return_30d_pct": 1568.8900307838626,
   "max_drawdown_pct": -45.33268564021758,
   "max_drawdown_7d_pct": -22.462294162816164,
-  "avg_leverage_x": 5.101426145848595,
-  "avg_gross_exposure_x": 5.098594146117938,
-  "avg_abs_market_exposure": 0.22017946981818273,
-  "last_market_exposure": -0.0004870800477132,
+  "avg_leverage_x": 5.104293675018885,
+  "avg_gross_exposure_x": 5.101477066591111,
+  "avg_abs_market_exposure": 0.224469181018639,
+  "last_market_exposure": 1.009486330702142,
   "last_nr_longs": 5,
   "last_nr_shorts": 10,
   "fee_and_session_stats": {
     "fee_rate_notional": 0.00043,
-    "avg_turnover_pct": 0.36813563788233705,
-    "median_turnover_pct": 0.2588245610209628,
-    "avg_fee_est_pct_capital": 0.00015829832428940495,
-    "median_fee_est_pct_capital": 0.000111294561239014,
-    "avg_session_return_pct": -0.19680542710268592,
-    "median_session_return_pct": -0.15495727286337999,
+    "avg_turnover_pct": 0.3679947421949698,
+    "median_turnover_pct": 0.26062500145510437,
+    "avg_fee_est_pct_capital": 0.000158237739143837,
+    "median_fee_est_pct_capital": 0.0001120687506256949,
+    "avg_session_return_pct": -0.20047682744872136,
+    "median_session_return_pct": -0.15761441999180498,
     "worst_session_return_pct": -2.3911479330844,
     "best_session_return_pct": 1.23460631571783
   },
-  "strategy_weighted_avg_return_pct": 1.363985219059505,
-  "strategy_weighted_30d_return_pct": 125.43462136522314,
-  "macro_snapshot": {}
+  "strategy_weighted_avg_return_pct": 1.3090053561470438,
+  "strategy_weighted_30d_return_pct": 118.21424125407134,
+  "macro_snapshot": {
+    "ROC4h": -0.007673344458,
+    "ROC24h": 0.01443447076,
+    "ROC7": -0.01643654611,
+    "ROC14": -0.1267930977,
+    "ROC30": 0.06214001665,
+    "Stoch4h": 0.540427458,
+    "Stoch24h": 0.5659425056,
+    "Stoch20": 0.2479568989,
+    "Price": 1496.703376,
+    "Volume": 8574304.624
+  }
 };
 
 function setupEquityC30drDisplay() {
