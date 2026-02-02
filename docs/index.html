@@ -442,6 +442,49 @@
       opacity: 0;
       animation: fadeIn 0.5s ease-in forwards;
     }
+
+    .toggle-section {
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .toggle-btn {
+      padding: 0.75rem 1.5rem;
+      background: #25282f;
+      border: 1px solid #373a45;
+      border-radius: 6px;
+      color: #9aa0b0;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+
+    .toggle-btn:hover {
+      background: #2c2e38;
+      color: #e0e0e0;
+    }
+
+    .toggle-btn.active {
+      background: #00d4ff;
+      color: #1a1d29;
+      border-color: #00d4ff;
+    }
+
+    .toggleable {
+      transition: opacity 0.3s, max-height 0.3s, margin 0.3s, padding 0.3s;
+      overflow: hidden;
+    }
+
+    .toggleable.hidden {
+      opacity: 0 !important;
+      max-height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+    }
   </style>
 </head>
 <body>
@@ -470,12 +513,17 @@
       🔴 Red = Other criteria fail
     </div>
 
+
+    <div class="toggle-section">
+      <button id="toggle-detailed" class="toggle-btn">Show Detailed Metrics & Equity</button>
+    </div>
+
     <div class="kpi-grid loading" id="kpi-grid"></div>
 
     <div class="charts-grid loading">
-      <div class="card">
+      <div class="card toggleable hidden" id="equity-card">
         <div class="card-header range-header">
-          <h3>📈 Equity Curve</h3>
+          <h3 id="equity-title" style="cursor: pointer; user-select: none;">📈 Equity Curve</h3>
           <div class="equity-c30dr" id="equity-c30dr">c30dR: —</div>
           <div class="range-buttons" data-target="equity" aria-label="Equity range presets">
             <button class="range-btn" data-range="7d" type="button">7D</button>
@@ -484,7 +532,7 @@
             <button class="range-btn" data-range="all" type="button">All</button>
           </div>
         </div>
-        <iframe src="equity.html?v=1770021246" class="equity-frame" id="equity-iframe"></iframe>
+        <iframe src="equity.html?v=1770035697" class="equity-frame" id="equity-iframe"></iframe>
       </div>
 
       
@@ -657,12 +705,12 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-02-02T08:34:06+00:00",
+  "last_updated_utc": "2026-02-02T12:34:57+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
   "data_time_end": "2026-02-02T09:09:19.394575",
-  "data_age_hours": 0.41301495777777775,
+  "data_age_hours": 4.42733913,
   "last_iterations": 4.0,
   "trade_session_return_pct": -0.29884584675757003,
   "strategy_last": "neutral",
@@ -927,9 +975,11 @@ async function main() {
 
     const kpiGrid = document.getElementById('kpi-grid');
     kpiGrid.innerHTML = '';
+    const toggleableLabels = ['Portfolio Value', '7D Return', '14D Return', '30D Return', '7D Max Drawdown', 'Max Drawdown', 'Total Return'];
     for (const kpi of kpis) {
       const card = document.createElement('div');
-      card.className = 'kpi-card';
+      const isToggleable = toggleableLabels.includes(kpi.label);
+      card.className = isToggleable ? 'kpi-card toggleable' : 'kpi-card';
       card.innerHTML = `
         <div class="kpi-label">${kpi.label}</div>
         <div class="kpi-value ${kpi.colorClass}">${kpi.value}</div>
@@ -952,11 +1002,65 @@ async function main() {
     setupRangeButtons();
     setupEquityC30drDisplay();
     setupSessionReturnAvgDisplay();
+    setupToggle();
 
   } catch (e) {
     document.getElementById('metrics').textContent = 'Failed to load metrics.json: ' + e;
     console.error('Error loading dashboard:', e);
   }
+}
+
+
+function setupToggle() {
+  const toggleBtn = document.getElementById('toggle-detailed');
+  const equityCard = document.getElementById('equity-card');
+
+  const toggleableKPIs = [
+    'Portfolio Value',
+    '7D Return',
+    '14D Return',
+    '30D Return',
+    '7D Max Drawdown',
+    'Max Drawdown',
+    'Total Return'
+  ];
+
+  let isVisible = false;
+
+  function updateToggleState() {
+    if (isVisible) {
+      toggleBtn.textContent = 'Hide Detailed Metrics & Equity';
+      toggleBtn.classList.add('active');
+      if (equityCard) equityCard.classList.remove('hidden');
+
+      const allKPIs = document.querySelectorAll('.kpi-card');
+      allKPIs.forEach(card => {
+        const label = card.querySelector('.kpi-label')?.textContent;
+        if (label && toggleableKPIs.includes(label)) {
+          card.classList.remove('hidden');
+        }
+      });
+    } else {
+      toggleBtn.textContent = 'Show Detailed Metrics & Equity';
+      toggleBtn.classList.remove('active');
+      if (equityCard) equityCard.classList.add('hidden');
+
+      const allKPIs = document.querySelectorAll('.kpi-card');
+      allKPIs.forEach(card => {
+        const label = card.querySelector('.kpi-label')?.textContent;
+        if (label && toggleableKPIs.includes(label)) {
+          card.classList.add('hidden');
+        }
+      });
+    }
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    isVisible = !isVisible;
+    updateToggleState();
+  });
+
+  updateToggleState();
 }
 
 main();
