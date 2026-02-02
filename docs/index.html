@@ -532,7 +532,7 @@
             <button class="range-btn" data-range="all" type="button">All</button>
           </div>
         </div>
-        <iframe src="equity.html?v=1770035697" class="equity-frame" id="equity-iframe"></iframe>
+        <iframe src="equity.html?v=1770058111" class="equity-frame" id="equity-iframe"></iframe>
       </div>
 
       
@@ -705,12 +705,12 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-02-02T12:34:57+00:00",
+  "last_updated_utc": "2026-02-02T18:48:31+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
   "data_time_end": "2026-02-02T09:09:19.394575",
-  "data_age_hours": 4.42733913,
+  "data_age_hours": 10.653440195833332,
   "last_iterations": 4.0,
   "trade_session_return_pct": -0.29884584675757003,
   "strategy_last": "neutral",
@@ -1003,6 +1003,7 @@ async function main() {
     setupEquityC30drDisplay();
     setupSessionReturnAvgDisplay();
     setupToggle();
+    setupEquityTitleToggle();
 
   } catch (e) {
     document.getElementById('metrics').textContent = 'Failed to load metrics.json: ' + e;
@@ -1010,6 +1011,39 @@ async function main() {
   }
 }
 
+
+
+function setupEquityTitleToggle() {
+  const titleEl = document.getElementById('equity-title');
+  const iframe = document.getElementById('equity-iframe');
+
+  if (!titleEl || !iframe) {
+    console.warn('Could not find equity title or iframe');
+    return;
+  }
+
+  let iframeReady = false;
+
+  // Wait for iframe to load
+  iframe.addEventListener('load', function() {
+    iframeReady = true;
+    console.log('Equity iframe loaded, log scale toggle ready');
+  });
+
+  titleEl.addEventListener('click', function() {
+    if (!iframeReady) {
+      console.warn('Iframe not yet loaded');
+      return;
+    }
+
+    try {
+      console.log('Sending toggle_log_scale message to iframe');
+      iframe.contentWindow.postMessage({ type: 'toggle_log_scale' }, '*');
+    } catch (e) {
+      console.error('Could not toggle log scale:', e);
+    }
+  });
+}
 
 function setupToggle() {
   const toggleBtn = document.getElementById('toggle-detailed');
