@@ -1,10 +1,10 @@
 {
-  "last_updated_utc": "2026-02-06T20:28:26+00:00",
+  "last_updated_utc": "2026-02-06T20:35:59+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
   "data_time_end": "2026-02-06T21:28:16.493726",
-  "data_age_hours": 0.0027719069444444447,
+  "data_age_hours": 0.12853931055555556,
   "last_iterations": 4.0,
   "trade_session_return_pct": -0.7754141436128901,
   "strategy_last": "neutral",
@@ -35,5 +35,16 @@
   },
   "strategy_weighted_avg_return_pct": 1.6034579552999515,
   "strategy_weighted_30d_return_pct": 159.7223563362743,
-  "macro_snapshot": {}
+  "macro_snapshot": {
+    "ROC4h": -0.01954915865,
+    "ROC24h": 0.09228259142,
+    "ROC7": -0.09310037178,
+    "ROC14": -0.2262604913,
+    "ROC30": -0.2667069927,
+    "Stoch4h": 0.2229606497,
+    "Stoch24h": 0.8139301825,
+    "Stoch20": 0.283616183,
+    "Price": 1221.828296,
+    "Volume": 332883819.7
+  }
 }
