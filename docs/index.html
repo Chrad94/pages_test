@@ -532,35 +532,23 @@
             <button class="range-btn" data-range="all" type="button">All</button>
           </div>
         </div>
-        <iframe src="equity.html?v=1770368675" class="equity-frame" id="equity-iframe"></iframe>
+        <iframe src="equity.html?v=1770409706" class="equity-frame" id="equity-iframe"></iframe>
       </div>
 
       
-    <div class="card">
-      <div class="card-header range-header">
-        <h3>📈 Delta ROC (7 & 14)</h3>
-        <div class="range-buttons" data-target="macro-delta" aria-label="Delta ROC range presets">
-          <button class="range-btn" data-range="7d" type="button">7D</button>
-          <button class="range-btn" data-range="14d" type="button">14D</button>
-          <button class="range-btn" data-range="30d" type="button">30D</button>
-          <button class="range-btn" data-range="all" type="button">All</button>
-        </div>
-      </div>
-      <iframe src="macro_deltaROC.html" id="macro-delta-iframe"></iframe>
-    </div>
-
+      
       
     <div class="card">
       <div class="card-header range-header">
-        <h3>📉 Stoch Delta ROC (7 & 14)</h3>
-        <div class="range-buttons" data-target="macro-stoch-delta" aria-label="Stoch Delta ROC range presets">
-          <button class="range-btn" data-range="7d" type="button">7D</button>
-          <button class="range-btn" data-range="14d" type="button">14D</button>
-          <button class="range-btn" data-range="30d" type="button">30D</button>
-          <button class="range-btn" data-range="all" type="button">All</button>
+        <h3>Extrapolated Equity</h3>
+        <div class="range-buttons" data-target="extrapolated-eq" data-default-range="3m"
+             aria-label="Extrapolated equity range presets">
+          <button class="range-btn" data-range="3m" type="button">3M</button>
+          <button class="range-btn" data-range="6m" type="button">6M</button>
+          <button class="range-btn" data-range="12m" type="button">12M</button>
         </div>
       </div>
-      <iframe src="macro_stoch_deltaROC.html" id="macro-stoch-delta-iframe"></iframe>
+      <iframe src="extrapolated_eq.html?v=1770409706" id="extrapolated-eq-iframe"></iframe>
     </div>
 
       
@@ -568,8 +556,8 @@
       <div class="card-header range-header">
         <h3>📊 Avg Return per Strategy</h3>
         <div class="range-buttons" aria-label="Weighted strategy returns">
-          <div class="equity-c30dr" id="strategy-wavg">avg: +1.74%</div>
-          <div class="equity-c30dr" id="strategy-30d">30d: +182.28%</div>
+          <div class="equity-c30dr" id="strategy-wavg">avg: +1.60%</div>
+          <div class="equity-c30dr" id="strategy-30d">30d: +159.72%</div>
         </div>
       </div>
       <iframe src="strategy_return_hist.html"></iframe>
@@ -705,59 +693,50 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-02-06T09:04:34+00:00",
+  "last_updated_utc": "2026-02-06T20:28:26+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
-  "data_time_end": "2026-02-06T09:21:32.290103",
-  "data_age_hours": 0.7174173252777777,
-  "last_iterations": 12.0,
-  "trade_session_return_pct": -0.35334759910096,
+  "data_time_end": "2026-02-06T21:28:16.493726",
+  "data_age_hours": 0.0027719069444444447,
+  "last_iterations": 4.0,
+  "trade_session_return_pct": -0.7754141436128901,
   "strategy_last": "neutral",
   "equity_start_usd": 226.606537,
-  "equity_last_usd": 23826.024192,
-  "return_total_pct": 10414.270465198451,
-  "return_7d_pct": 92.30115307431564,
-  "return_14d_pct": 805.8575447316666,
-  "return_30d_pct": 3674.0898798069543,
+  "equity_last_usd": 22055.987745,
+  "return_total_pct": 9633.16482260174,
+  "return_7d_pct": 81.99820891119427,
+  "return_14d_pct": 738.5613455402232,
+  "return_30d_pct": 3459.3281116689277,
   "max_drawdown_pct": -45.33268564021758,
-  "max_drawdown_7d_pct": -9.553015328902603,
-  "avg_leverage_x": 5.07818486955286,
-  "avg_gross_exposure_x": 5.075619246034493,
-  "avg_abs_market_exposure": 0.19981987141378155,
-  "last_market_exposure": 0.0021785776586857,
+  "max_drawdown_7d_pct": -13.162073325452383,
+  "avg_leverage_x": 5.077438186329531,
+  "avg_gross_exposure_x": 5.074885201350663,
+  "avg_abs_market_exposure": 0.1988480206979489,
+  "last_market_exposure": -0.0025341760997612,
   "last_nr_longs": 5,
   "last_nr_shorts": 10,
   "fee_and_session_stats": {
     "fee_rate_notional": 0.00043,
-    "avg_turnover_pct": 0.35929024993680986,
-    "median_turnover_pct": 0.25450133495080574,
-    "avg_fee_est_pct_capital": 0.00015449480747282824,
-    "median_fee_est_pct_capital": 0.00010943557402884644,
-    "avg_session_return_pct": -0.18387451807313462,
-    "median_session_return_pct": -0.18948317476245,
+    "avg_turnover_pct": 0.35838878530945006,
+    "median_turnover_pct": 0.2529632528464708,
+    "avg_fee_est_pct_capital": 0.0001541071776830635,
+    "median_fee_est_pct_capital": 0.00010877419872398243,
+    "avg_session_return_pct": -0.18684707900549521,
+    "median_session_return_pct": -0.19009771651201,
     "worst_session_return_pct": -2.3911479330844,
     "best_session_return_pct": 2.7582294766438102
   },
-  "strategy_weighted_avg_return_pct": 1.7445901836301476,
-  "strategy_weighted_30d_return_pct": 182.27967577845433,
-  "macro_snapshot": {
-    "ROC4h": -0.0246202564703156,
-    "ROC24h": -0.1154231549358408,
-    "ROC7": -0.159957785212511,
-    "ROC14": -0.2816611977426306,
-    "ROC30": -0.3160805581086653,
-    "Stoch4h": 0.2653222634776372,
-    "Stoch24h": 0.4322997570354461,
-    "Stoch20": 0.1737993615462932,
-    "Price": 1147.42636375,
-    "Volume": 313412309.92429954
-  }
+  "strategy_weighted_avg_return_pct": 1.6034579552999515,
+  "strategy_weighted_30d_return_pct": 159.7223563362743,
+  "macro_snapshot": {}
 };
 
 function setupEquityC30drDisplay() {
   const el = document.getElementById('equity-c30dr');
   if (!el) return;
+  const extrapIframe = document.getElementById('extrapolated-eq-iframe');
+  let lastC30dR = null;
 
   function fmtPct(x) {
     if (x === null || x === undefined || !Number.isFinite(x)) return '—';
@@ -765,10 +744,33 @@ function setupEquityC30drDisplay() {
     return sign + x.toFixed(2) + '%';
   }
 
+  function forwardToExtrapolated() {
+    if (!extrapIframe || !extrapIframe.contentWindow) return;
+    try {
+      const msekBase = (METRICS_DATA.equity_last_usd || 0) * 0.00001;
+      extrapIframe.contentWindow.postMessage(
+        {
+          type: 'extrapolated_eq_update',
+          c30dR: lastC30dR,
+          baseValue: msekBase
+        },
+        '*'
+      );
+    } catch (e) {}
+  }
+
+  if (extrapIframe) {
+    extrapIframe.addEventListener('load', () => {
+      forwardToExtrapolated();
+    });
+  }
+
   window.addEventListener('message', (ev) => {
     const msg = ev && ev.data;
     if (!msg || msg.type !== 'equity_c30dr') return;
-    el.textContent = 'c30dR: ' + fmtPct(msg.est30);
+    lastC30dR = msg.est30;
+    el.textContent = 'c30dR: ' + fmtPct(lastC30dR);
+    forwardToExtrapolated();
   });
 }
 
@@ -854,7 +856,13 @@ function setupRangeButtons() {
       });
     }
 
-    const def = group.querySelector('.range-btn[data-range="7d"]');
+    const defaultRange = group.getAttribute('data-default-range');
+    let def = null;
+    if (defaultRange) {
+      def = group.querySelector('.range-btn[data-range="' + defaultRange + '"]');
+    }
+    if (!def) def = group.querySelector('.range-btn[data-range="7d"]');
+    if (!def && buttons.length > 0) def = buttons[0];
     if (def) def.classList.add('active');
   }
 }
