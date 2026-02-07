@@ -1,10 +1,10 @@
 {
-  "last_updated_utc": "2026-02-07T16:31:21+00:00",
+  "last_updated_utc": "2026-02-07T17:52:41+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
   "data_time_end": "2026-02-07T09:10:53.276352",
-  "data_age_hours": 8.341093605000001,
+  "data_age_hours": 9.696691785833334,
   "last_iterations": 4.0,
   "trade_session_return_pct": 0.07296149353619,
   "strategy_last": "neutral_fallback",

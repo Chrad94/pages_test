@@ -532,7 +532,7 @@
             <button class="range-btn" data-range="all" type="button">All</button>
           </div>
         </div>
-        <iframe src="equity.html?v=1770481881" class="equity-frame" id="equity-iframe"></iframe>
+        <iframe src="equity.html?v=1770486761" class="equity-frame" id="equity-iframe"></iframe>
       </div>
 
       
@@ -546,7 +546,7 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
       </div>
-      <iframe src="macro_deltaROC.html?v=1770481881" id="macro-delta-iframe"></iframe>
+      <iframe src="macro_deltaROC.html?v=1770486761" id="macro-delta-iframe"></iframe>
     </div>
 
       
@@ -560,21 +560,24 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
       </div>
-      <iframe src="macro_stoch_deltaROC.html?v=1770481881" id="macro-stoch-delta-iframe"></iframe>
+      <iframe src="macro_stoch_deltaROC.html?v=1770486761" id="macro-stoch-delta-iframe"></iframe>
     </div>
 
       
     <div class="card">
       <div class="card-header range-header">
         <h3>Extrapolated Equity</h3>
+        <div class="equity-c30dr" id="extrapolated-final">final: —</div>
         <div class="range-buttons" data-target="extrapolated-eq" data-default-range="3m"
              aria-label="Extrapolated equity range presets">
+          <button class="range-btn" data-range="1m" type="button">1M</button>
           <button class="range-btn" data-range="3m" type="button">3M</button>
           <button class="range-btn" data-range="6m" type="button">6M</button>
+          <button class="range-btn" data-range="9m" type="button">9M</button>
           <button class="range-btn" data-range="12m" type="button">12M</button>
         </div>
       </div>
-      <iframe src="extrapolated_eq.html?v=1770481881" id="extrapolated-eq-iframe"></iframe>
+      <iframe src="extrapolated_eq.html?v=1770486761" id="extrapolated-eq-iframe"></iframe>
     </div>
 
       
@@ -719,12 +722,12 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-02-07T16:31:21+00:00",
+  "last_updated_utc": "2026-02-07T17:52:41+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
   "data_time_end": "2026-02-07T09:10:53.276352",
-  "data_age_hours": 8.341093605000001,
+  "data_age_hours": 9.696691785833334,
   "last_iterations": 4.0,
   "trade_session_return_pct": 0.07296149353619,
   "strategy_last": "neutral_fallback",
@@ -811,6 +814,23 @@ function setupEquityC30drDisplay() {
   });
 }
 
+
+
+function setupExtrapolatedFinalDisplay() {
+  const el = document.getElementById('extrapolated-final');
+  if (!el) return;
+
+  function fmtMsek(x) {
+    if (x === null || x === undefined || !Number.isFinite(x)) return '—';
+    return x.toFixed(2) + ' MSEK';
+  }
+
+  window.addEventListener('message', (ev) => {
+    const msg = ev && ev.data;
+    if (!msg || msg.type !== 'extrapolated_eq_final') return;
+    el.textContent = 'final: ' + fmtMsek(msg.value);
+  });
+}
 
 
 function setupSessionReturnAvgDisplay() {
@@ -1046,6 +1066,7 @@ async function main() {
     // Wire up equity range preset buttons
     setupRangeButtons();
     setupEquityC30drDisplay();
+    setupExtrapolatedFinalDisplay();
     setupSessionReturnAvgDisplay();
     setupToggle();
     setupEquityTitleToggle();

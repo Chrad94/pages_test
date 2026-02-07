@@ -90,6 +90,14 @@
     });
   }
 
+  function sendFinalValue(val) {
+    try {
+      if (window.parent) {
+        window.parent.postMessage({ type: 'extrapolated_eq_final', value: val }, '*');
+      }
+    } catch (e) {}
+  }
+
   function clearAnnotation() {
     Plotly.relayout(gd, { annotations: [] });
   }
@@ -101,6 +109,7 @@
     const series = buildSeries(months, lastC30dR);
     if (!series) {
       setAnnotation('Waiting for c30dR...');
+      sendFinalValue(null);
       Plotly.relayout(gd, { 'xaxis.range': [xStartIso, xEnd] });
       return;
     }
@@ -116,6 +125,8 @@
       relayout['yaxis.autorange'] = false;
     }
     Plotly.relayout(gd, relayout);
+    const finalValue = series.ys[series.ys.length - 1];
+    sendFinalValue(Number.isFinite(finalValue) ? finalValue : null);
   }
 
   window.addEventListener('message', (ev) => {
@@ -126,8 +137,10 @@
       lastC30dR = isFiniteNumber(msg.c30dR) ? msg.c30dR : null;
       applyRange(currentMonths);
     } else if (msg.type === 'set_range') {
+      if (msg.range === '1m') applyRange(1);
       if (msg.range === '3m') applyRange(3);
       if (msg.range === '6m') applyRange(6);
+      if (msg.range === '9m') applyRange(9);
       if (msg.range === '12m') applyRange(12);
     }
   });
