@@ -532,37 +532,11 @@
             <button class="range-btn" data-range="all" type="button">All</button>
           </div>
         </div>
-        <iframe src="equity.html?v=1770410159" class="equity-frame" id="equity-iframe"></iframe>
+        <iframe src="equity.html?v=1770451859" class="equity-frame" id="equity-iframe"></iframe>
       </div>
 
       
-    <div class="card">
-      <div class="card-header range-header">
-        <h3>📈 Delta ROC (7 & 14)</h3>
-        <div class="range-buttons" data-target="macro-delta" aria-label="Delta ROC range presets">
-          <button class="range-btn" data-range="7d" type="button">7D</button>
-          <button class="range-btn" data-range="14d" type="button">14D</button>
-          <button class="range-btn" data-range="30d" type="button">30D</button>
-          <button class="range-btn" data-range="all" type="button">All</button>
-        </div>
-      </div>
-      <iframe src="macro_deltaROC.html" id="macro-delta-iframe"></iframe>
-    </div>
-
       
-    <div class="card">
-      <div class="card-header range-header">
-        <h3>📉 Stoch Delta ROC (7 & 14)</h3>
-        <div class="range-buttons" data-target="macro-stoch-delta" aria-label="Stoch Delta ROC range presets">
-          <button class="range-btn" data-range="7d" type="button">7D</button>
-          <button class="range-btn" data-range="14d" type="button">14D</button>
-          <button class="range-btn" data-range="30d" type="button">30D</button>
-          <button class="range-btn" data-range="all" type="button">All</button>
-        </div>
-      </div>
-      <iframe src="macro_stoch_deltaROC.html" id="macro-stoch-delta-iframe"></iframe>
-    </div>
-
       
     <div class="card">
       <div class="card-header range-header">
@@ -574,7 +548,7 @@
           <button class="range-btn" data-range="12m" type="button">12M</button>
         </div>
       </div>
-      <iframe src="extrapolated_eq.html?v=1770410159" id="extrapolated-eq-iframe"></iframe>
+      <iframe src="extrapolated_eq.html?v=1770451859" id="extrapolated-eq-iframe"></iframe>
     </div>
 
       
@@ -582,8 +556,8 @@
       <div class="card-header range-header">
         <h3>📊 Avg Return per Strategy</h3>
         <div class="range-buttons" aria-label="Weighted strategy returns">
-          <div class="equity-c30dr" id="strategy-wavg">avg: +1.60%</div>
-          <div class="equity-c30dr" id="strategy-30d">30d: +159.72%</div>
+          <div class="equity-c30dr" id="strategy-wavg">avg: +1.68%</div>
+          <div class="equity-c30dr" id="strategy-30d">30d: +171.02%</div>
         </div>
       </div>
       <iframe src="strategy_return_hist.html"></iframe>
@@ -719,54 +693,43 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-02-06T20:35:59+00:00",
+  "last_updated_utc": "2026-02-07T08:10:59+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
-  "data_time_end": "2026-02-06T21:28:16.493726",
-  "data_age_hours": 0.12853931055555556,
+  "data_time_end": "2026-02-07T09:10:53.276352",
+  "data_age_hours": 0.0016337180555555555,
   "last_iterations": 4.0,
-  "trade_session_return_pct": -0.7754141436128901,
-  "strategy_last": "neutral",
+  "trade_session_return_pct": 0.07296149353619,
+  "strategy_last": "neutral_fallback",
   "equity_start_usd": 226.606537,
-  "equity_last_usd": 22055.987745,
-  "return_total_pct": 9633.16482260174,
-  "return_7d_pct": 81.99820891119427,
-  "return_14d_pct": 738.5613455402232,
-  "return_30d_pct": 3459.3281116689277,
+  "equity_last_usd": 23459.61206,
+  "return_total_pct": 10252.575159824271,
+  "return_7d_pct": 77.10824774755703,
+  "return_14d_pct": 967.6510007955756,
+  "return_30d_pct": 3492.420222026175,
   "max_drawdown_pct": -45.33268564021758,
   "max_drawdown_7d_pct": -13.162073325452383,
-  "avg_leverage_x": 5.077438186329531,
-  "avg_gross_exposure_x": 5.074885201350663,
-  "avg_abs_market_exposure": 0.1988480206979489,
-  "last_market_exposure": -0.0025341760997612,
+  "avg_leverage_x": 5.076734842665019,
+  "avg_gross_exposure_x": 5.0741943723183995,
+  "avg_abs_market_exposure": 0.1978763884201841,
+  "last_market_exposure": 0.0006350360339249,
   "last_nr_longs": 5,
   "last_nr_shorts": 10,
   "fee_and_session_stats": {
     "fee_rate_notional": 0.00043,
-    "avg_turnover_pct": 0.35838878530945006,
-    "median_turnover_pct": 0.2529632528464708,
-    "avg_fee_est_pct_capital": 0.0001541071776830635,
-    "median_fee_est_pct_capital": 0.00010877419872398243,
-    "avg_session_return_pct": -0.18684707900549521,
-    "median_session_return_pct": -0.19009771651201,
+    "avg_turnover_pct": 0.3572296252006189,
+    "median_turnover_pct": 0.25126026714785615,
+    "avg_fee_est_pct_capital": 0.00015360873883626613,
+    "median_fee_est_pct_capital": 0.00010804191487357813,
+    "avg_session_return_pct": -0.18554803614278678,
+    "median_session_return_pct": -0.18948317476245,
     "worst_session_return_pct": -2.3911479330844,
     "best_session_return_pct": 2.7582294766438102
   },
-  "strategy_weighted_avg_return_pct": 1.6034579552999515,
-  "strategy_weighted_30d_return_pct": 159.7223563362743,
-  "macro_snapshot": {
-    "ROC4h": -0.01954915865,
-    "ROC24h": 0.09228259142,
-    "ROC7": -0.09310037178,
-    "ROC14": -0.2262604913,
-    "ROC30": -0.2667069927,
-    "Stoch4h": 0.2229606497,
-    "Stoch24h": 0.8139301825,
-    "Stoch20": 0.283616183,
-    "Price": 1221.828296,
-    "Volume": 332883819.7
-  }
+  "strategy_weighted_avg_return_pct": 1.6755860925124482,
+  "strategy_weighted_30d_return_pct": 171.01983107930536,
+  "macro_snapshot": {}
 };
 
 function setupEquityC30drDisplay() {
