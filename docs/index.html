@@ -507,10 +507,10 @@
     </header>
 
     <div class="criteria-card">
-      <strong>Status Lamp Criteria:</strong> 
-      🟢 Green = Longs ≥5, Shorts ≥10, Drawdown >-30%, Exposure ∈[-1.2, 1.2] | 
-      🟡 Yellow = Only drawdown fails | 
-      🔴 Red = Other criteria fail
+      <strong>Status Lamp Criteria:</strong>
+      🟢 Green = All OK |
+      🟡 Yellow = Stale data (>12.1h), iterations >20, or session return outside [-3%, +5%] |
+      🔴 Red = Critical issues
     </div>
 
 
@@ -532,7 +532,7 @@
             <button class="range-btn" data-range="all" type="button">All</button>
           </div>
         </div>
-        <iframe src="equity.html?v=1775460534" class="equity-frame" id="equity-iframe"></iframe>
+        <iframe src="equity.html?v=1775502522" class="equity-frame" id="equity-iframe"></iframe>
       </div>
 
       
@@ -546,7 +546,7 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
       </div>
-      <iframe src="macro_deltaROC.html?v=1775460534" id="macro-delta-iframe"></iframe>
+      <iframe src="macro_deltaROC.html?v=1775502522" id="macro-delta-iframe"></iframe>
     </div>
 
       
@@ -560,7 +560,7 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
       </div>
-      <iframe src="macro_stoch_deltaROC.html?v=1775460534" id="macro-stoch-delta-iframe"></iframe>
+      <iframe src="macro_stoch_deltaROC.html?v=1775502522" id="macro-stoch-delta-iframe"></iframe>
     </div>
 
       
@@ -577,7 +577,7 @@
           <button class="range-btn" data-range="12m" type="button">12M</button>
         </div>
       </div>
-      <iframe src="extrapolated_eq.html?v=1775460534" id="extrapolated-eq-iframe"></iframe>
+      <iframe src="extrapolated_eq.html?v=1775502522" id="extrapolated-eq-iframe"></iframe>
     </div>
 
       
@@ -586,16 +586,17 @@
         <h3>📊 Avg Return per Strategy</h3>
         <div class="range-buttons" aria-label="Weighted strategy returns">
           <div class="equity-c30dr" id="strategy-wavg">avg: +0.66%</div>
-          <div class="equity-c30dr" id="strategy-30d">30d: +48.41%</div>
+          <div class="equity-c30dr" id="strategy-30d">30d: +48.76%</div>
         </div>
       </div>
-      <iframe src="strategy_return_hist.html"></iframe>
+      <iframe src="strategy_return_hist.html?v=1775502522" id="strategy-hist-iframe"></iframe>
     </div>
 
 
       <div class="card">
         <div class="card-header range-header">
           <h3>📉 Drawdown</h3>
+          <div class="equity-c30dr" id="drawdown-min">max DD: —</div>
           <div class="range-buttons" data-target="drawdown" aria-label="Drawdown range presets">
           <button class="range-btn" data-range="7d" type="button">7D</button>
           <button class="range-btn" data-range="14d" type="button">14D</button>
@@ -603,7 +604,7 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
         </div>
-        <iframe src="drawdown.html" id="drawdown-iframe"></iframe>
+        <iframe src="drawdown.html?v=1775502522" id="drawdown-iframe"></iframe>
       </div>
       <div class="card">
         <div class="card-header range-header">
@@ -615,7 +616,7 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
         </div>
-        <iframe src="exposure.html" id="exposure-iframe"></iframe>
+        <iframe src="exposure.html?v=1775502522" id="exposure-iframe"></iframe>
       </div>
       <div class="card">
         <div class="card-header range-header">
@@ -627,7 +628,7 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
         </div>
-        <iframe src="leverage.html" id="leverage-iframe"></iframe>
+        <iframe src="leverage.html?v=1775502522" id="leverage-iframe"></iframe>
       </div>
       
     <div class="card">
@@ -640,13 +641,13 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
       </div>
-      <iframe src="positions.html" id="positions-iframe"></iframe>
+      <iframe src="positions.html?v=1775502522" id="positions-iframe"></iframe>
     </div>
 
       
     <div class="card">
       <h3>💼 Current Holdings (USD)</h3>
-      <iframe src="holdings.html"></iframe>
+      <iframe src="holdings.html?v=1775502522"></iframe>
     </div>
 
       
@@ -660,7 +661,7 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
       </div>
-      <iframe src="turnover.html" id="turnover-iframe"></iframe>
+      <iframe src="turnover.html?v=1775502522" id="turnover-iframe"></iframe>
     </div>
 
       
@@ -675,7 +676,7 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
       </div>
-      <iframe src="session_return.html" id="session-return-iframe"></iframe>
+      <iframe src="session_return.html?v=1775502522" id="session-return-iframe"></iframe>
     </div>
 
       
@@ -689,7 +690,7 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
       </div>
-      <iframe src="iterations.html" id="iterations-iframe"></iframe>
+      <iframe src="iterations.html?v=1775502522" id="iterations-iframe"></iframe>
     </div>
 
       
@@ -703,7 +704,7 @@
           <button class="range-btn" data-range="all" type="button">All</button>
         </div>
       </div>
-      <iframe src="tradetime.html" id="tradetime-iframe"></iframe>
+      <iframe src="tradetime.html?v=1775502522" id="tradetime-iframe"></iframe>
     </div>
 
     </div>
@@ -722,53 +723,53 @@
 <script>
 // Embedded metrics data (no fetch needed - works with file:// protocol)
 const METRICS_DATA = {
-  "last_updated_utc": "2026-04-06T07:28:54+00:00",
+  "last_updated_utc": "2026-04-06T19:08:42+00:00",
   "lamp_status": "green",
   "lamp_message": "OK",
   "data_time_start": "2025-11-06T15:29:24.223878",
-  "data_time_end": "2026-04-06T09:28:47.649638",
-  "data_age_hours": 0.001985723611111111,
-  "last_iterations": 14.0,
-  "trade_session_return_pct": -1.1360074367447202,
+  "data_time_end": "2026-04-06T21:08:34.233208",
+  "data_age_hours": 0.002329123611111111,
+  "last_iterations": 2.0,
+  "trade_session_return_pct": -0.02559685097951,
   "strategy_last": "neutral-overheated",
   "equity_start_usd": 226.606537,
-  "equity_last_usd": 31352.480933,
-  "return_total_pct": 13735.647174203097,
-  "return_7d_pct": 7.442879473950459,
-  "return_14d_pct": 16.780972376568016,
-  "return_30d_pct": 32.71551306683311,
+  "equity_last_usd": 31783.23396,
+  "return_total_pct": 13925.735700643094,
+  "return_7d_pct": 8.919041620796309,
+  "return_14d_pct": 18.385430966454685,
+  "return_30d_pct": 34.538896967633924,
   "max_drawdown_pct": -45.33268564021758,
   "max_drawdown_7d_pct": -9.763885661671468,
-  "avg_leverage_x": 4.995397818383102,
-  "avg_gross_exposure_x": 4.993778268537133,
-  "avg_abs_market_exposure": 0.13648990101035174,
-  "last_market_exposure": 0.0024612031234436,
+  "avg_leverage_x": 4.987615648175834,
+  "avg_gross_exposure_x": 4.9860011436564875,
+  "avg_abs_market_exposure": 0.13606655682388888,
+  "last_market_exposure": 0.0005964171557826,
   "last_nr_longs": 5,
   "last_nr_shorts": 10,
   "fee_and_session_stats": {
     "fee_rate_notional": 0.00043,
-    "avg_turnover_pct": 0.3763738875214216,
-    "median_turnover_pct": 0.2741738677468964,
-    "avg_fee_est_pct_capital": 0.0001618407716342113,
-    "median_fee_est_pct_capital": 0.00011789476313116544,
-    "avg_session_return_pct": -0.23839384428535135,
-    "median_session_return_pct": -0.21066518159310998,
+    "avg_turnover_pct": 0.3758452521271848,
+    "median_turnover_pct": 0.2729330149326499,
+    "avg_fee_est_pct_capital": 0.00016161345841468947,
+    "median_fee_est_pct_capital": 0.00011736119642103946,
+    "avg_session_return_pct": -0.23772256039479664,
+    "median_session_return_pct": -0.20727494343534997,
     "worst_session_return_pct": -2.5575914089116103,
     "best_session_return_pct": 2.7582294766438102
   },
-  "strategy_weighted_avg_return_pct": 0.6601841444971205,
-  "strategy_weighted_30d_return_pct": 48.41002313038643,
+  "strategy_weighted_avg_return_pct": 0.6641056828194906,
+  "strategy_weighted_30d_return_pct": 48.757329249606094,
   "macro_snapshot": {
-    "ROC4h": -0.0033474230360772,
-    "ROC24h": 0.0274855014796341,
-    "ROC7": 0.0041953505098814,
-    "ROC14": -0.0437927837882872,
-    "ROC30": 0.0410571235096522,
-    "Stoch4h": 0.3738874899080752,
-    "Stoch24h": 0.7270271582867105,
-    "Stoch20": 0.3545236628020809,
-    "Price": 1183.576205951613,
-    "Volume": 39589788.72998961
+    "ROC4h": -0.0013361273740713,
+    "ROC24h": 0.0297689909494943,
+    "ROC7": 0.0082874539312323,
+    "ROC14": -0.0400866133823953,
+    "ROC30": 0.0447603295691134,
+    "Stoch4h": 0.3739242682292385,
+    "Stoch24h": 0.5833959434311076,
+    "Stoch20": 0.3675447890942352,
+    "Price": 1198.3797855161292,
+    "Volume": 39981604.68487493
   }
 };
 
@@ -1070,6 +1071,8 @@ async function main() {
     setupSessionReturnAvgDisplay();
     setupToggle();
     setupEquityTitleToggle();
+    setupDrawdownMinDisplay();
+    setupStrategyHistZoomSync();
 
   } catch (e) {
     document.getElementById('metrics').textContent = 'Failed to load metrics.json: ' + e;
@@ -1107,6 +1110,59 @@ function setupEquityTitleToggle() {
       iframe.contentWindow.postMessage({ type: 'toggle_log_scale' }, '*');
     } catch (e) {
       console.error('Could not toggle log scale:', e);
+    }
+  });
+}
+
+function setupDrawdownMinDisplay() {
+  const el = document.getElementById('drawdown-min');
+  if (!el) return;
+
+  window.addEventListener('message', function(ev) {
+    const msg = ev && ev.data;
+    if (!msg || msg.type !== 'drawdown_min') return;
+    const v = msg.minVal;
+    if (v === null || v === undefined || !Number.isFinite(v)) {
+      el.textContent = 'max DD: —';
+    } else {
+      el.textContent = 'max DD: ' + (v * 100).toFixed(2) + '%';
+    }
+  });
+}
+
+function setupStrategyHistZoomSync() {
+  const iframe = document.getElementById('strategy-hist-iframe');
+  if (!iframe) return;
+
+  const wavgEl = document.getElementById('strategy-wavg');
+  const est30dEl = document.getElementById('strategy-30d');
+
+  function fmtPct(x) {
+    if (x === null || x === undefined || !Number.isFinite(x)) return '—';
+    const sign = x >= 0 ? '+' : '';
+    return sign + x.toFixed(2) + '%';
+  }
+
+  let iframeReady = false;
+  let pendingMsg = null;
+
+  iframe.addEventListener('load', function() {
+    iframeReady = true;
+    if (pendingMsg) {
+      try { iframe.contentWindow.postMessage(pendingMsg, '*'); } catch (e) {}
+      pendingMsg = null;
+    }
+  });
+
+  window.addEventListener('message', function(ev) {
+    const msg = ev && ev.data;
+    if (!msg) return;
+    if (msg.type === 'equity_zoom_range') {
+      if (!iframeReady) { pendingMsg = msg; return; }
+      try { iframe.contentWindow.postMessage(msg, '*'); } catch (e) {}
+    } else if (msg.type === 'strategy_hist_stats') {
+      if (wavgEl) wavgEl.textContent = 'avg: ' + fmtPct(msg.wavg);
+      if (est30dEl) est30dEl.textContent = '30d: ' + fmtPct(msg.est30d);
     }
   });
 }
